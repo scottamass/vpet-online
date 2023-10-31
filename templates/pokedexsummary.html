@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "nav.html" %}
+<div class="container !direction !spacing">
+<h1 style="text-align: center;"> {{game_info.name}}-{{clean_data_progess.title}}</h1>
+{% if game_info.gen == 'gen1'%}    
+{%endif%}
+{% if game_info.gen == 'gen2'%}    
+{%endif%}
+<div class="row">
+{%for p in pokedex %}
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 mb-3">
+{% if p['id'] in clean_data_progess.caught %}   
+<div class="card bg-warning" style="width: 10rem;">
+{% else %}
+<div class="card" style="width: 10rem;">
+{% endif %}    
+    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{p.id}}.png" class="card-img-top" alt="..." loading="lazy">
+    <div class="card-body">
+      <h5 class="card-title">{{p.name}}</h5>
+      {% if p['id'] in clean_data_progess.caught %} 
+      <form action="/uncaught/{{clean_data_progess._id}}/{{p.id}}" method="POST">
+        <input type="hidden" name="next" value="{{request.args.get('next')}}" />
+      <button type="submit" class="btn btn-primary">uncaught</button>
+    </form>
+      {% else %}
+      <form action="/caught/{{clean_data_progess._id}}/{{p.id}}" method="POST">
+        <input type="hidden" name="next" value="{{request.args.get('next')}}" />
+      <button type="submit" class="btn btn-primary">caught</button>
+    </form>
+    {% endif %} 
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+</div>
+</div>
+
+</div>
+{% endblock %}

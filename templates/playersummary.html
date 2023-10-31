@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block content %}
+{% include "nav.html" %}
+<div class="container mx-auto ">
+    <h2>My Monster</h2>
+    <section class=" container bga" style="background-image: url('static/bg/1.jpeg');" >
+        <div class="relative mx-auto">
+            <img class="monster-image frame1" src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
+            <img class="monster-image frame2" src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}" alt="Frame 2 Image">
+        </div>
+</section>
+<section>
+    <div class="container">
+        <p><span>name:</span> {{monster.name}}</p>
+        <p><span>stage:</span> {{monster.stage}}</p>
+    </div>
+</section>
+<div class="d-flex flex-wrap mx-auto ">
+
+</div>
+</div>
+<div class="container-fluid !direction !spacing mt-5">
+ 
+ <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    start a new game 
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/api/createmonster" method="POST">
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Title</label>
+                <input type="text" class="form-control" name="title" aria-describedby="emailHelp">
+                <div class="container">
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Choose a Monster</h5>
+                            <div class="row">
+                               <!-- egg selector--> 
+                                <div class="col-md-4">
+                                  <div class="card text-center">
+                                    <img src="{{ url_for('static', filename='eggs/digitama_c1.gif' )}}" class="card-img-top" alt="Pokemon Crystal">
+                                    <div class="card-body">
+                                      <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" value=1 id=1 name="options" class="custom-control-input">
+                                        <label class="custom-control-label" for=1>bottomon</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <!---->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  
+                  
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="subimt" class="btn btn-primary">Submit</button> 
+          
+
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>  
+<style>
+    .custom-control-input:checked ~ .custom-control-label::before {
+        border: 2px solid blue;
+    }
+
+    .bga {
+        position: relative;
+        background-repeat: no-repeat;
+        background-position: center;
+        
+    }
+
+    .relative {
+        position: relative;
+        height: 250px;
+        width: 250px;
+    }
+
+    section {
+        
+        image-rendering: pixelated;
+    }
+
+    .monster-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .frame2 {
+        animation: frame-animation 1s infinite;
+        position: absolute;
+        margin-top: 0 !important;
+        box-shadow: none !important;
+    }
+
+    @keyframes frame-animation {
+        0% {
+            opacity: 0;
+        }
+
+        49.99%{opacity: 0;}
+        50%{opacity: 1;}
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .frame1 {
+        animation: frame1-animation 1s infinite;
+        position: absolute;
+        margin-top: 0 !important;
+        box-shadow: none !important;
+    }
+
+    @keyframes frame1-animation {
+        0% {
+            opacity: 1;
+        }
+
+        49.99%{opacity: 1;}
+        50%{opacity: 0;}
+        100% {
+            opacity: 0;
+        }
+    }
+
+</style>
+{% endblock %}

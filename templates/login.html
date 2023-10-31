@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="base">
+    <div class="container">
+        <div class="row">
+    <!-- left padding -->
+    <div class="col-lg-3 col-md-2"></div>
+            <div class="box col-lg-6 col-md-8">
+                <H1>Ih</H1>
+                
+                <form action="/login" method="post">
+                    <input type="text" class="form-control"  name="username" required>
+                    <input type="password" class="form-control password"  name="pwd" required i>
+                    <button class="btn btn-outline-light" type="submit">login</button>
+                    
+                    
+                </form>
+                <form>
+                <label>Not got an Account ? </label><br>
+                <a href="/sign-up"><button class="btn btn-outline-success" >sign-up</button></a>
+                </form>
+            </div>
+                <!-- right padding -->
+    <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+<style>
+    *{margin: 0;
+    padding: 0;
+}
+
+label{color: rgb(150, 150, 150);}
+h1{text-align: center;
+color: rgb(150, 150, 150);}
+    .base{background-color: rgb(150, 150, 150);
+    height: 100vh;}
+
+    .box {background-color: #1a2226;
+    margin-top: 5rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),0 3px 6px rgba(0, 0, 0, 0.23);
+padding: 1em;}
+
+    
+    input[type=text]{ 
+        background-color: #1a2226;
+        border: none;
+        border-bottom: 2px solid #1188c4d8;
+        border-top: 0px;
+        border-radius: 0px;
+        outline: 0; color: #ecf0f5;}
+    input[type=password]{ 
+            background-color: #1a2226;
+            border: none;
+            border-bottom: 2px solid #1188c4d8;
+            border-top: 0px;
+            border-radius: 0px;
+            outline: 0;color: #ecf0f5;}
+            .password 
+            {margin-top: 1em;
+            margin-bottom: 1em;}
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0;
+    }
+
+    input:-webkit-autofill{
+        background-color: #1a2226;
+    }
+    .form-control:focus{
+        border-color: inherit;
+        box-shadow: none;
+        outline: 0;
+        background-color: #1a2226;
+        color: #ecf0f5;
+    }        
+            
+</style>
+{% endblock %}

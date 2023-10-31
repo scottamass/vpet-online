@@ -1,0 +1,170 @@
+{% extends "base.html"%}
+{% block content %}
+{% include "nav.html" %}
+<div style="background-color: gray; border-radius:10px" class="container !direction !spacing pb-5">
+  <div class="row mx-auto pt-2 ">
+    <div class="col col-sm-12 col-md-6 col-lg-3 pb-3 text-center" style="background-color: #589c59; border-radius: 10px;">
+      <section class="inner">
+        <p style="margin-bottom: 1px;">Kanto</p>
+        <h2>Pokemon {{game_info.name}}</h2>
+      </section>
+      <section class="inner">
+        <img width="90%" src="{{game_info.image}}" alt="Pokemon Red">
+      </section>
+      <section class="inner">
+        <div class="row">
+          <h5>startring Area</h5>
+          <a href="/pokeradar/{{clean_data_progess._id}}/{{game_info.gen}}/route1">Route 1</a>
+         
+        </div>
+      </section>
+      <section class="inner">
+        <div class="row">
+          <h5>Caught Progress</h5>
+          <p>{{clean_data_progess.caught|length}}/{{game_info.max}}
+          </p><p> need to fill in some gaps?<br>
+          <a href="/games/{{clean_data_progess._id}}">go to summary chart</a>
+        </p>
+        </div>
+
+      </section>
+
+    </div>
+    <div class="col col-sm-12 col-md-6 col-lg-9 ">
+      
+
+      <section class="rightinner">
+        <h5>Caught</h5>
+        <div class="d-flex flex-wrap">
+          {% for c in clean_data_progess.caught|sort %}
+          <div>
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{c}}.png">
+          </div>
+          {% endfor %}
+
+        </div>
+      </section>
+      <section class="rightinner">
+        <details>
+          <summary>
+            Trade Evolutions
+          </summary>
+          <div class="d-flex flex-wrap">
+            {% for p in data.trade %}
+            {% if p['id'] in clean_data_progess.caught %}
+            <div class="card bg-warning" style="width: 10rem;">
+              {% else %}
+              <div class="card" style="width: 10rem;">
+                {% endif %}
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{p.id}}.png"
+                  class="card-img-top" alt="..." loading="lazy">
+                <div class="card-body">
+                  <h5 class="card-title">{{p.name}}</h5>
+                  {% if p['id'] in clean_data_progess.caught %}
+                  <form action="/uncaught/{{clean_data_progess._id}}/{{p.id}}" method="POST">
+                    <input type="hidden" name="next" value="{{request.args.get('next')}}" />
+                    <button type="submit" class="btn btn-primary">uncaught</button>
+                  </form>
+                  {% else %}
+                  <form action="/caught/{{clean_data_progess._id}}/{{p.id}}" method="POST">
+                    <input type="hidden" name="next" value="{{request.args.get('next')}}" />
+                    <button type="submit" class="btn btn-primary">caught</button>
+                  </form>
+                  {% endif %}
+
+                </div>
+              </div>
+              {% endfor %}
+        </details>
+      </section>
+      <section class="rightinner">
+        <details>
+          <summary>Version unobtainables</summary>
+          <div class="d-flex flex-wrap">
+            {% for p in data.unobtainable[game_info.name] %}
+            {% if p['id'] in clean_data_progess.caught %}
+            <div class="card bg-warning" style="width: 10rem;">
+              {% else %}
+              <div class="card" style="width: 10rem;">
+                {% endif %}
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{p.id}}.png"
+                  class="card-img-top" alt="..." loading="lazy">
+                <div class="card-body">
+                  <h5 class="card-title">{{p.name}}</h5>
+                  {% if p['id'] in clean_data_progess.caught %}
+                  <form action="/uncaught/{{clean_data_progess._id}}/{{p.id}}" method="POST">
+                    <input type="hidden" name="next" value="{{request.args.get('next')}}" />
+                    <button type="submit" class="btn btn-primary">uncaught</button>
+                  </form>
+                  {% else %}
+                  <form action="/caught/{{clean_data_progess._id}}/{{p.id}}" method="POST">
+                    <input type="hidden" name="next" value="{{request.args.get('next')}}" />
+                    <button type="submit" class="btn btn-primary">caught</button>
+                  </form>
+                  {% endif %}
+
+                </div>
+              </div>
+              {% endfor %}
+        </details>
+</section>
+    
+    {% include "pokeradar/partialGenoneLocations.html" %}
+    </section>
+</div>
+
+  </div>
+</div>
+<style>
+  .inner {
+    background-color: #75C977;
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #ce991e;
+    padding: 4px;
+  }
+
+  .rightinner {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-top: 5px;
+    border-radius: 10px;
+    border: 1px solid #ce991e;
+    padding: 4px;
+  }
+
+  .container img {
+    display: block;
+    /* This removes extra space under the image */
+    margin: 0 auto;
+    /* Center the image horizontally */
+  }
+
+
+  table {
+    border: 5px solid #2f2d80;
+    background: #75C977;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+  table,
+  th,
+  td {
+    border: 2px solid #4AA14D;
+  }
+
+  .tbg {
+    background: #A2E0A3;
+    color: #000000;
+  }
+
+  .tbgw {
+    background: #9DB7F5;
+    color: #000000
+  }
+
+  td {
+    background: white;
+  }
+</style>
+{% endblock %}
