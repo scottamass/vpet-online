@@ -1,23 +1,24 @@
-
+{% extends "base.html" %}
+{% block content %}
 <div class="base">
     <div class="container">
         <div class="row">
     <!-- left padding -->
     <div class="col-lg-3 col-md-2"></div>
             <div class="box col-lg-6 col-md-8">
-                <H1>Ih</H1>
+                <H1>Vpet-Online</H1>
                 
                 <form action="/register" method="post">
                     <input type="text" class="form-control"  name="username" placeholder="User Name" required>
                     <input type="email" class="form-control"  name="email" placeholder="Email" required>
-                    <input type="password" class="form-control password"  name="pwd" required i>
-                    <button class="btn btn-outline-light" type="submit">login</button>
+                    <input type="password" class="form-control password"  placeholder="password" name="pwd" required i>
+                    <button class="btn btn-outline-light" type="submit">Sign-Up</button>
                     
                     
                 </form>
                 <form>
                 <label>already a have an account </label><br>
-                <a href="/login"><button class="btn btn-outline-success" >sign-up</button></a>
+                <a href="/login"><button class="btn btn-outline-success" >Login</button></a>
                 </form>
             </div>
                 <!-- right padding -->
@@ -49,13 +50,20 @@ padding: 1em;}
         border-top: 0px;
         border-radius: 0px;
         outline: 0; color: #ecf0f5;}
-    input[type=password]{ 
+        input[type=email]{ 
             background-color: #1a2226;
             border: none;
             border-bottom: 2px solid #1188c4d8;
             border-top: 0px;
             border-radius: 0px;
-            outline: 0;color: #ecf0f5;}
+            outline: 0; color: #ecf0f5;}    
+    input[type=password]{ 
+        background-color: #1a2226;
+        border: none;
+        border-bottom: 2px solid #1188c4d8;
+        border-top: 0px;
+        border-radius: 0px;
+        outline: 0; color: #ecf0f5;}
             .password 
             {margin-top: 1em;
             margin-bottom: 1em;}
@@ -76,3 +84,4 @@ padding: 1em;}
     }        
             
 </style>
+{% endblock %}

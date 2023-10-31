@@ -1,7 +1,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Retro Radar</a>
+      <a class="navbar-brand" href="#">Vpet-Online</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -10,31 +10,25 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
+          {% if current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <a class="nav-link" href="/player">Digimon</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              games
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% for g in games_list %}
-                {% if g.game == "2" or g.game == "3" %}
-                <li><a class="dropdown-item" href="/gamesummary/{{g._id}}">{% if g.game=="2" %}Red{% endif %}{% if g.game=="3" %}Yellow{% endif %}{% if g.game=="1" %}crystal{% endif %}-{{g.title}}
-                </a></li>
-                {% else %}
-                <li><a class="dropdown-item" href="/games/{{g._id}}">{% if g.game=="2" %}Red{% endif %}{% if g.game=="3" %}Yellow{% endif %}{% if g.game=="1" %}crystal{% endif %}-{{g.title}}
-                </a></li>
-                {% endif %}
-                {% endfor %}
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">current game:</a></li>
-            </ul>
-          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" tabindex="-1" aria-disabled="true" href="/Shop" >Shop</a>
+          </li>  
           
           <li class="nav-item">
             <a class="nav-link" href="/logout" >Logout</a>
           </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login" >login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register" >sign-up</a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </div>

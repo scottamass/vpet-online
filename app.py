@@ -58,9 +58,7 @@ def parse_json(data):
 @app.route('/')
 def index():
  
-    return """
-    <h1>TEST<h1>
-    """
+    return render_template('home.html')
     
 
 @app.route('/player')
@@ -135,7 +133,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return "loged out"
+    return redirect('/')
 
 @app.route('/api/register', methods=['GET','POST'])
 def api_register():
