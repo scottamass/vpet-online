@@ -47,6 +47,6 @@ def expcheck(id,exp):
            print("you have leveled up ")       
     
 
-expcheck(ObjectId('6541107d9a2ed6e684a6552c'),1 )                  
+#expcheck(ObjectId('6541107d9a2ed6e684a6552c'),1 )                  
            
     
