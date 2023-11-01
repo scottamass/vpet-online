@@ -10,7 +10,11 @@
 
             <section class="inner">
                 <h3>{{current_user.username}}</h3>
+                
             </section>
+            {%if "admin" is in current_user.roles%}
+                <span style="margin-top: -10;" class="badge rounded-pill text-bg-primary">{{current_user.roles}}</span>
+                {%endif%}
         </div>
         <div class="col col-sm-12 col-md-6 col-lg-9 order-1 order-sm-1 order-md-2">
             <div class="container mx-auto ">

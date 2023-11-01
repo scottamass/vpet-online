@@ -16,12 +16,12 @@ db= MongoClient(mongo_connect)
 VERSION='0.5'
 
 class User(UserMixin):
-    def __init__(self,id,username,pic):
+    def __init__(self,id,username,pic,role):
         
         self.id = id
         self.username = username
         self.pic = pic
-        self.roles=["reader"]
+        self.roles=role
 
 class Post():
     def __init__(self,monsterid,poster_id, posted_date):
@@ -47,7 +47,7 @@ def unauthenticated():
 def load_user(user_id):
     u= db.userProfiles.userProfiles.find_one({'_id':ObjectId(user_id)})
     if u is not None:
-        return User(id=u['_id'],username=u['username'],pic=u['profilePic'])
+        return User(id=u['_id'],username=u['username'],pic=u['profilePic'],role=u['role'])
 
 login_manager.init_app(app)
 
@@ -109,7 +109,7 @@ def register():
             print(requested_user)
             user_uid = requested_user["_id"]
             #add user to profile db
-            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None})
+            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":None})
             return redirect(url_for('login'))
     else: return render_template("register.html")            
 
@@ -123,7 +123,7 @@ def login():
             if bcrypt.check_password_hash(query['password'],pw):                
                 user_name=db.userProfiles.userProfiles.find_one({"auth_id":ObjectId(query['_id'])})
                 user_id = user_name['_id']
-                user = User(user_id,user_name['username'],None)                
+                user = User(user_id,user_name['username'],None,user_name['role'])                
                 login_user(user)
                 return redirect('/')
             else: return jsonify({"error":"unauthorized"}),401
