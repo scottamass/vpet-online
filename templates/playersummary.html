@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "nav.html" %}
-<div class="container-fluid !direction !spacing">
-
-
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
     <div class="row">
         <div class="col col-sm-12 col-md-6 col-lg-3 pb-3 text-center bg-red  order-2 order-sm-2 order-md-1"
             style="background-color: #ce991e; min-height:95vh">
@@ -17,7 +20,7 @@
                 {%endif%}
         </div>
         <div class="col col-sm-12 col-md-6 col-lg-9 order-1 order-sm-1 order-md-2">
-            <div class="container mx-auto ">
+            <div id="monster" class="container mx-auto ">
                 {% if monster is not none %}
                 <h2>My Monster</h2>
                 <section class=" container bga" style="background-image: url('static/bg/1.jpeg');">

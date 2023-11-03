@@ -1,0 +1,36 @@
+<h2>My Monster</h2>
+<section class=" container bga" style="background-image: url('static/bg/1.jpeg');">
+    <div class="relative mx-auto">
+        <img class="monster-image frame1"
+            src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
+        <img class="monster-image frame2"
+            src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
+            alt="Frame 2 Image">
+    </div>
+</section>
+<section>
+    <div class="container Rinner row">
+        <div class="col col-sm-12 col-md-6">
+            <p><span>name:</span> {{monster.name}}</p>
+            <p><span>stage:</span> {{monster.stage}}</p>
+            <p><span>Level:</span>{{monster.level}}</p>
+            <p><span>Exp:</span>{{monster.exp}}</p>
+
+        </div>
+        <div class="col col-sm-12 col-md-6">
+            <p><span>Hunger:</span> Comming soon</p>
+            <p><span>HP:</span> {{monster.hp}}</p>
+            <p><span>Atk:</span>{{monster.atk}}</p>
+            <p><span>Power:</span>{{monster.basepower}}</p>
+
+        </div>
+    </div>
+</section>
+<section class="buttons d-flex" style="flex-wrap: wrap;">
+    <button type="button" class="btn btn-secondary" onclick="showAlert('Feed')">Feed</button>
+    <button type="button" class="btn btn-secondary" onclick="showAlert('Train')">Train</button>
+    <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button>
+    <button type="button" class="btn btn-secondary" onclick="showAlert('Battle')">Battle</button>
+    <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button>
+    <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button>
+</section>

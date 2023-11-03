@@ -73,6 +73,16 @@ def player():
     
     return render_template('playersummary.html' ,monster=monster ,backgroundUrl=backgroundUrl) 
 
+@app.route('/part/monster')
+@login_required
+def monster():
+    monster=fetch_player_monster(current_user.id)
+    if monster != None:
+        evocheck(current_user.id)
+        monster=fetch_player_monster(current_user.id)
+    backgroundUrl='/static/bg/1.jpeg'
+    return render_template('/partials/monster.html',monster=monster ,backgroundUrl=backgroundUrl)
+
 @app.route('/api/createmonster', methods=['POST'])
 @login_required
 def post_game():
