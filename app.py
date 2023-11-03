@@ -11,6 +11,7 @@ from functions.dbfunct import evocheck, fetch_player_monster, give_monster_to_pl
 
 
 mongo_connect=os.getenv('M_CONNECTION_STRING')
+print(mongo_connect)
 db= MongoClient(mongo_connect)
 
 VERSION='0.5'
@@ -124,7 +125,7 @@ def login():
                 user_name=db.userProfiles.userProfiles.find_one({"auth_id":ObjectId(query['_id'])})
                 user_id = user_name['_id']
                 user = User(user_id,user_name['username'],None,user_name['role'])                
-                login_user(user)
+                login_user(user, remember=True)
                 return redirect('/')
             else: return jsonify({"error":"unauthorized"}),401
         else: return jsonify({"error":"unauthorized"}),401
