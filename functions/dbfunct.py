@@ -19,16 +19,34 @@ def fetch_player_monster(id):
 
 
 def evocheck(id):
-        query = {"active": True, "poster_id": id} 
-        monster=db.playerMonster.monsters.find_one(query)
-        current_time = datetime.now()
-        time_difference = current_time - monster['posted_date']
-        if monster['stage'] == 1:
+       query = {"active": True, "poster_id": id} 
+       monster=db.playerMonster.monsters.find_one(query)
+       current_time = datetime.now()
+       time_difference = current_time - monster['posted_date']
+       if monster['stage'] == 1:
                 time_difference = current_time - monster['posted_date']
                 if time_difference >= timedelta(minutes=10):
                     monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                     monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolve'])})
                     db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":2}})
+       if monster['stage'] == 2:      
+              print('stage 2')   
+              time_difference = current_time - monster['posted_date']
+              print(time_difference)
+              if time_difference >= timedelta(hours=8):
+                     print('ready')
+                     print(monster['traning'])
+                     if monster['traning'] >=4:
+                            
+                            monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
+                            monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvea'])})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"hp":monsternew['hp'],'atk':monsternew['atk'],"basepower":monsternew['power']}})
+                     else:
+                            monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
+                            print(monster)
+                            monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
+                            print(monsternew)
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"hp":monsternew['hp'],'atk':monsternew['atk'],"basepower":monsternew['power']}})
         
 def expcheck(id,exp):
     query = {"active": True, "poster_id": id} 

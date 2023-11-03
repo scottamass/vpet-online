@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
 <div class="base">
     <div class="container">
         <div class="row">
     <!-- left padding -->
     <div class="col-lg-3 col-md-2"></div>
             <div class="box col-lg-6 col-md-8">
-                <H1>Ih</H1>
+                <H1>Vpet-Online</H1>
                 
                 <form action="/login" method="post">
                     <input type="text" class="form-control"  name="username" required>

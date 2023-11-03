@@ -1,6 +1,6 @@
 import json
 import datetime
-from flask import Flask, Response, jsonify, redirect, request,session , render_template, url_for
+from flask import Flask, Response, flash, jsonify, redirect, request,session , render_template, url_for
 from flask_login import LoginManager, UserMixin, login_required,login_user,current_user, logout_user
 from flask_bcrypt import Bcrypt
 from pymongo import DESCENDING, MongoClient
@@ -110,7 +110,7 @@ def register():
             print(requested_user)
             user_uid = requested_user["_id"]
             #add user to profile db
-            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":None})
+            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":"player"})
             return redirect(url_for('login'))
     else: return render_template("register.html")            
 
@@ -127,8 +127,12 @@ def login():
                 user = User(user_id,user_name['username'],None,user_name['role'])                
                 login_user(user, remember=True)
                 return redirect('/')
-            else: return jsonify({"error":"unauthorized"}),401
-        else: return jsonify({"error":"unauthorized"}),401
+            else: 
+                flash('Incorrect email or password please try again ')
+                return redirect('/login')
+        else: 
+            flash('Incorrect email or password please try again ')
+            return redirect('/login')
     else: return render_template("login.html")
 
 @app.route('/logout')
