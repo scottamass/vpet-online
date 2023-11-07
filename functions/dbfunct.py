@@ -7,7 +7,7 @@ db= MongoClient(mongo_connect)
 
 def give_monster_to_player(game):
         monster= db.monsterdb.monsters.find_one({'id':int(game.game)})
-        post_to_db={"monster_id":game.game,"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'basepower':monster['power'],'hp':monster['hp'],'name':monster['name'],'atk':monster['atk'],"stage":1,"traning":0,"exp":0,"level":1}
+        post_to_db={"monster_id":game.game,"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'basepower':monster['power'],'hp':monster['hp'],'name':monster['name'],'atk':monster['atk'],"stage":1,"traning":0,"exp":0,"level":1,'hunger':0}
         db.playerMonster.monsters.insert_one(post_to_db)
 
 
@@ -17,6 +17,12 @@ def fetch_player_monster(id):
  
         return(monster)
 
+def feed_monster(id):
+       query = {"active": True, "poster_id": id} 
+       monster=db.playerMonster.monsters.find_one(query) 
+       hunger= monster['hunger']  
+       hunger += 1
+       db.playerMonster.monsters.update_one(query,{'$set':{"hunger":hunger}})
 
 def evocheck(id):
        query = {"active": True, "poster_id": id} 

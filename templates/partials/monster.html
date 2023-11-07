@@ -1,5 +1,25 @@
 <h2>My Monster</h2>
-<section class=" container bga" style="background-image: url('static/bg/1.jpeg');">
+<section id="mon" class=" container bga" style="background-image: url('static/bg/1.jpeg');">
+    {% for message in get_flashed_messages()%}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+      
+  </div>
+  <script>
+    // Add an event listener for when the document is ready
+    document.addEventListener("DOMContentLoaded", function() {
+      // Select the alert element
+      var alertElement = document.querySelector(".alert");
+  
+      // Use a setTimeout function to automatically close the alert after 5 seconds (5000 milliseconds)
+      setTimeout(function() {
+        alertElement.style.display = "none"; // Hide the alert
+      }, 5000); // 5000 milliseconds = 5 seconds
+    });
+  </script>
+{% endfor %}
     <div class="relative mx-auto">
         <img class="monster-image frame1"
             src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
@@ -18,7 +38,7 @@
 
         </div>
         <div class="col col-sm-12 col-md-6">
-            <p><span>Hunger:</span> Comming soon</p>
+            <p><span>Hunger:</span> {{monster.hunger}}</p>
             <p><span>HP:</span> {{monster.hp}}</p>
             <p><span>Atk:</span>{{monster.atk}}</p>
             <p><span>Power:</span>{{monster.basepower}}</p>
@@ -27,10 +47,12 @@
     </div>
 </section>
 <section class="buttons d-flex" style="flex-wrap: wrap;">
-    <button type="button" class="btn btn-secondary" onclick="showAlert('Feed')">Feed</button>
-    <button type="button" class="btn btn-secondary" onclick="showAlert('Train')">Train</button>
+    <button hx-get="/feed" hx-target="#mon" type="button" class="btn btn-secondary" >Feed</button>
+    <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary" onclick="showAlert('Train')">Train</button>
     <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button>
     <button type="button" class="btn btn-secondary" onclick="showAlert('Battle')">Battle</button>
     <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button>
     <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button>
 </section>
+
+  

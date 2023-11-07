@@ -6,7 +6,7 @@ from flask_bcrypt import Bcrypt
 from pymongo import DESCENDING, MongoClient
 from bson import json_util,ObjectId
 import os
-from functions.dbfunct import evocheck, fetch_player_monster, give_monster_to_player
+from functions.dbfunct import evocheck, feed_monster, fetch_player_monster, give_monster_to_player
 
 
 
@@ -82,6 +82,25 @@ def monster():
         monster=fetch_player_monster(current_user.id)
     backgroundUrl='/static/bg/1.jpeg'
     return render_template('/partials/monster.html',monster=monster ,backgroundUrl=backgroundUrl)
+
+@app.route('/train')
+def train():
+
+    return render_template('/partials/traning.html')
+
+@app.route('/feed',methods=['POST','GET'])
+def feed():
+    if request.method == 'POST':
+        
+        monster=fetch_player_monster(current_user.id)
+        args=request.args
+        food = args.get('food')
+        if food == 'meat':
+            feed_monster(current_user.id)
+            flash(f'you ate the {food} nom nom')
+        
+        return redirect(url_for('monster'))
+    return render_template('partials/feed.html')
 
 @app.route('/api/createmonster', methods=['POST'])
 @login_required
