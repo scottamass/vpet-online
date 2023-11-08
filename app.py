@@ -6,7 +6,9 @@ from flask_bcrypt import Bcrypt
 from pymongo import DESCENDING, MongoClient
 from bson import json_util,ObjectId
 import os
-from functions.dbfunct import evocheck, feed_monster, fetch_player_monster, give_monster_to_player
+from battletest import battle as btl
+from functions.battletower import battleTower 
+from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_monster, give_monster_to_player, remove_food_monster
 
 
 
@@ -61,7 +63,7 @@ def index():
  
     return render_template('home.html')
     
-
+############# monster screen #############
 @app.route('/player')
 @login_required
 def player():
@@ -82,16 +84,30 @@ def monster():
         monster=fetch_player_monster(current_user.id)
     backgroundUrl='/static/bg/1.jpeg'
     return render_template('/partials/monster.html',monster=monster ,backgroundUrl=backgroundUrl)
-
-@app.route('/train')
+########### monster management screen #########
+@app.route('/train',methods=['POST','GET'])
 def train():
-
+    if request.method == 'POST':       
+        monster=fetch_player_monster(current_user.id)
+        args=request.args
+        train = args.get('training')
+        if monster['hunger'] >= 1 :
+            if train == '1':
+                remove_food_monster(current_user.id)
+                expcheck(current_user.id,5)
+                newtrain = monster['traning'] 
+                newtrain += 1
+                query = {"active": True, "poster_id": current_user.id} 
+                db.playerMonster.monsters.update_one(query,{'$set':{"traning":newtrain}})
+                return redirect(url_for('monster'))
+        else: 
+            flash('you cannot train you are too hungry')
+            return redirect(url_for('monster'))        
     return render_template('/partials/traning.html')
 
 @app.route('/feed',methods=['POST','GET'])
 def feed():
     if request.method == 'POST':
-        
         monster=fetch_player_monster(current_user.id)
         args=request.args
         food = args.get('food')
@@ -102,6 +118,30 @@ def feed():
         return redirect(url_for('monster'))
     return render_template('partials/feed.html')
 
+@app.route('/battle',methods=["GET"])
+def battle():
+    return render_template('/partials/battlemenu.html')
+
+@app.route('/battle/battletower',methods=["GET","POST"])
+def battle_tower():
+    fetch_player_monster(current_user.id)
+    bt = battleTower
+    player = db.userProfiles.userProfiles.find_one({"_id":current_user.id})
+    if request.method == 'POST':
+            monster=fetch_player_monster(current_user.id)
+            args = request.args
+            stage= args['stage']
+            name = args['name']
+            hp = args['hp']
+            pow = args['power']
+            atk = args['atk']
+            opponent = {'name':name,'atk':atk,"hp":hp,"power":pow}
+            result=btl(monster,opponent)
+            return result
+    return render_template('/partials/battletower.html', bt=bt, player=player)
+
+
+####### new monster management ###########
 @app.route('/api/createmonster', methods=['POST'])
 @login_required
 def post_game():
@@ -119,7 +159,7 @@ def post_game():
 
 
 
-
+################ USER MANAGEMENT AND AUTH ##################
     
 
 @app.route('/register', methods=['GET','POST'])
@@ -139,7 +179,7 @@ def register():
             print(requested_user)
             user_uid = requested_user["_id"]
             #add user to profile db
-            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":"player"})
+            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":"player",'battleTower':0,"money":100})
             return redirect(url_for('login'))
     else: return render_template("register.html")            
 
@@ -148,8 +188,8 @@ def login():
     if request.method == 'POST':
         user = request.form ['username']
         pw= request.form ['pwd']
-        query= db.authDb.users.find_one({"email":user})
-        if db.authDb.users.find_one({"email":user}):
+        query= db.authDb.users.find_one({"username":user})
+        if db.authDb.users.find_one({"username":user}):
             if bcrypt.check_password_hash(query['password'],pw):                
                 user_name=db.userProfiles.userProfiles.find_one({"auth_id":ObjectId(query['_id'])})
                 user_id = user_name['_id']

@@ -1,4 +1,13 @@
-
+<div class="d-flex flex-wrap"> 
+    <div hx-post="/train?training=1" hx-target="#monster" class="card" style="width:10rem;">
+      <img width="50%" height="50%" src="{{ url_for('static', filename='weight.webp' ) }}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">train </h5>
+        
+      </div>
+    </div>
+    
+</div>
 
 
 <button  hx-get="/part/monster" hx-trigger="click" hx-target="#monster">
