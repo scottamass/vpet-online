@@ -22,42 +22,7 @@
         <div class="col col-sm-12 col-md-6 col-lg-9 order-1 order-sm-1 order-md-2">
             <div id="monster" class="container mx-auto ">
                 {% if monster is not none %}
-                <h2>My Monster</h2>
-                <section class=" container bga" style="background-image: url('static/bg/1.jpeg');">
-                    <div class="relative mx-auto">
-                        <img class="monster-image frame1"
-                            src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
-                        <img class="monster-image frame2"
-                            src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
-                            alt="Frame 2 Image">
-                    </div>
-                </section>
-                <section>
-                    <div class="container Rinner row">
-                        <div class="col col-sm-12 col-md-6">
-                            <p><span>name:</span> {{monster.name}}</p>
-                            <p><span>stage:</span> {{monster.stage}}</p>
-                            <p><span>Level:</span>{{monster.level}}</p>
-                            <p><span>Exp:</span>{{monster.exp}}</p>
-
-                        </div>
-                        <div class="col col-sm-12 col-md-6">
-                            <p><span>Hunger:</span> Comming soon</p>
-                            <p><span>HP:</span> {{monster.hp}}</p>
-                            <p><span>Atk:</span>{{monster.atk}}</p>
-                            <p><span>Power:</span>{{monster.basepower}}</p>
-
-                        </div>
-                    </div>
-                </section>
-                <section class="buttons d-flex" style="flex-wrap: wrap;">
-                    <button type="button" class="btn btn-secondary" onclick="showAlert('Feed')">Feed</button>
-                    <button type="button" class="btn btn-secondary" onclick="showAlert('Train')">Train</button>
-                    <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button>
-                    <button type="button" class="btn btn-secondary" onclick="showAlert('Battle')">Battle</button>
-                    <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button>
-                    <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button>
-                </section>
+         <div hx-get="/part/monster" hx-trigger="load">  </div>
                 {% else %}
                 <div class="px-4 py-5 my-5 text-center">
                     <img class="d-block mx-auto mb-4" src="/static/digivice.png" alt="" width="72" height="57">
@@ -138,6 +103,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function showAlert(feature) {
         alert(`"${feature}" feature is coming soon.`);
