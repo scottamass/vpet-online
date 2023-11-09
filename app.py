@@ -13,7 +13,6 @@ from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_mon
 
 
 mongo_connect=os.getenv('M_CONNECTION_STRING')
-print(mongo_connect)
 db= MongoClient(mongo_connect)
 
 VERSION='0.5'
