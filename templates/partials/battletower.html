@@ -3,7 +3,7 @@
     
     {% if player.battleTower >= b.stage-1  %}
     
-    <div hx-post="/battle/battletower?hp={{b.hp}}&power={{b.power}}&atk={{b.atk}}&name={{b.enemy}}&stage={{b.stage}}&prize={{b.prize}}" class="card" style="width:18rem;">
+    <div hx-post="/battle/battletower?hp={{b.hp}}&power={{b.power}}&atk={{b.atk}}&name={{b.enemy}}&stage={{b.stage}}&prize={{b.prize}}&xp={{b.xp}}" class="card" style="width:18rem;">
         <div class="card-body text-center">
           <h5 class="card-title">stage {{b.stage}}</h5>
           <h6 class="card-subtitle mb-2 text-muted ">{{b.enemy}}</h6>
