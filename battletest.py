@@ -8,9 +8,7 @@ def hitcalc(monster1,monster2):
     power = monster1['basepower']
     powertwo = monster2['power']
     power = int(power)
-    
     powertwo =int(powertwo)
-
     hitrate = ((power*100)/(power+powertwo))
     return (hitrate)
 
