@@ -131,13 +131,19 @@ def battle_tower():
             monster=fetch_player_monster(current_user.id)
             args = request.args
             stage= args['stage']
+            prize = args['prize']
             name = args['name']
             hp = args['hp']
             pow = args['power']
             atk = args['atk']
             opponent = {'name':name,'atk':atk,"hp":hp,"power":pow}
             result=btl(monster,opponent)
-            return result
+            if result =="win":
+                playerBank = int(player['money'])
+                playerBank += int(prize)
+                db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{"battleTower":int(stage),'money':playerBank}})
+                return result
+            else: return result
     return render_template('/partials/battletower.html', bt=bt, player=player)
 
 
