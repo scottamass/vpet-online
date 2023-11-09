@@ -5,7 +5,7 @@ monster1 ={"name":"one","hp":3,"atk":1,"power":25}
 monster2 ={"name":"Two","hp":3,"atk":1,"power":29}
 
 def hitcalc(monster1,monster2):
-    power = monster1['power']
+    power = monster1['basepower']
     powertwo = monster2['power']
     power = int(power)
     
