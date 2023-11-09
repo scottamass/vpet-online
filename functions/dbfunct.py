@@ -70,7 +70,7 @@ def evocheck(id):
        if monster['stage'] ==3:
               time_difference = current_time - monster['posted_date']
               if time_difference >= timedelta(hours=36):
-                     if monster['traning'] >=4 & monster['overfeed']>= 2:
+                     if monster['traning'] >=4 and monster['overfeed']>= 2:
                             
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvec'])})
@@ -113,15 +113,15 @@ def expcheck(id,exp):
            level = 4
     if xp >= 800:
            level =5
-    if xp >= 1000 & monster['stage'] >=4:
+    if xp >= 1000 and monster['stage'] >=4:
            level =6
-    if xp >= 1500 & monster['stage'] >=4:
+    if xp >= 1500 and monster['stage'] >=4:
            level =7 
-    if xp >= 2000 & monster['stage'] >=4:
+    if xp >= 2000 and monster['stage'] >=4:
            level =8
-    if xp >= 3000 & monster['stage'] >=4:
+    if xp >= 3000 and monster['stage'] >=4:
            level =9
-    if xp >= 5000 & monster['stage'] >=4:
+    if xp >= 5000 and monster['stage'] >=4:
            level =10
            
     if mlevel != level:
