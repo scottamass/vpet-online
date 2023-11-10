@@ -85,7 +85,7 @@ def evocheck(id):
                      elif monster['traning'] >=2:
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             print(monster)
-                            monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvec'])})
+                            monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
                             print(monsternew)
                             db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})
                      else:
