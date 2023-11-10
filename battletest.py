@@ -5,7 +5,7 @@ monster1 ={"name":"one","hp":3,"atk":1,"power":25}
 monster2 ={"name":"Two","hp":3,"atk":1,"power":29}
 
 def hitcalc(monster1,monster2):
-    power = monster1['basepower']
+    power = monster1['basepower']+ monster1['power']
     powertwo = monster2['power']
     power = int(power)
     powertwo =int(powertwo)
@@ -22,8 +22,8 @@ def opponent_turn():
 def battle(monster1,monster2):    
     batteling =True
     p1 =monster1['name']
-    p1hp =monster1['hp']
-    p1atk=monster1['atk']
+    p1hp =monster1['hp'] + monster1['basehp']
+    p1atk=monster1['atk'] + monster1['baseatk']
     p1atk= int(p1atk)
     p1hp= int(p1hp)
     p2 =monster2['name']
