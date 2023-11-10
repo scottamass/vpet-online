@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  # Your Application Service
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+    environment:
+      M_CONNECTION_STRING: "mongodb://root:example@mongodb:27017"  # Update with your connection details
+    command: bash -c "python initdb.py && gunicorn --bind 0.0.0.0:8000 app:app"
