@@ -8,7 +8,7 @@
   </div>
 {% endfor %}
     <div class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-3 pb-3 text-center bg-red  order-2 order-sm-2 order-md-1"
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3 pb-3 text-center bg-red  order-2 order-md-2 order-lg-1 "
             style="background-color: #ce991e; min-height:95vh">
 
             <section class="inner">
@@ -19,7 +19,7 @@
                 <span style="margin-top: -10;" class="badge rounded-pill text-bg-primary">{{current_user.roles}}</span>
                 {%endif%}
         </div>
-        <div class="col col-sm-12 col-md-6 col-lg-9 order-1 order-sm-1 order-md-2">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 order-1 order-sm-1 order-md-1 order-lg-2">
             <div id="monster" class="container mx-auto ">
                 {% if monster is not none %}
          <div hx-get="/part/monster" hx-trigger="load">  </div>

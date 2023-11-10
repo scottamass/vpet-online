@@ -31,21 +31,28 @@ def battle(monster1,monster2):
     p2hp= int(p2hp)
     p2atk = int(monster2['atk'])
     print(f'{p1}/{p1hp} v.s. {p2}/{p2hp}')
+    battlelog =[]
     while batteling == True:
         hittate=hitcalc(monster1,monster2)
         dice = int(random.random() * 100)
         if dice <hittate:
-            print(f"{p1} Hit")
             p2hp -= p1atk
-            print(p2hp)
+            message = {'player':1,'dialog':f'{p1} struck {p2} for {p1atk} damage leaving them with {p2hp} hp'}
+            battlelog.append(message)
             if p2hp <=0:
-                return 'win'
+                message = {'player':1,'dialog':'You were Victorious'}
+                battlelog.append(message)
+                print(battlelog)
+                return {'log':battlelog,'result':'win'}
         else:
-            print(f"{p2}Hit")
             p1hp -= p2atk
-            print(p1hp)
+            message = {'player':2,'dialog':f'{p2} struck {p1} for {p2atk} damage leaving you with {p1hp} hp'}
+            battlelog.append(message)
             if p1hp <=0:
-                return 'loose'
+                message = {'player':2,'dialog':'You Lost'}
+                battlelog.append(message)
+                print(battlelog)
+                return {'log':battlelog,'result':'loose'}
                     
 
 #battle(monster1,monster2)
