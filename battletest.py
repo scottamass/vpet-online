@@ -43,7 +43,7 @@ def battle(monster1,monster2):
         else:
             print(f"{p2}Hit")
             p1hp -= p2atk
-            print(monster1['hp'])
+            print(p1hp)
             if p1hp <=0:
                 return 'loose'
                     

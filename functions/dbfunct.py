@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from bson import ObjectId
+from flask import flash
 from pymongo import DESCENDING, MongoClient
 import os
 mongo_connect=os.getenv('M_CONNECTION_STRING')
@@ -121,10 +122,9 @@ def expcheck(id,exp):
     if xp >= 3000 and monster['stage'] >=4:
            level =9
     if xp >= 5000 and monster['stage'] >=4:
-           level =10
-           
+           level =10           
     if mlevel != level:
-           print("you have leveled up ")  
+           flash('Ding')
            db.playerMonster.monsters.update_one(query,{'$set':{'level':level}})     
     
 
