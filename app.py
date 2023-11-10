@@ -138,7 +138,7 @@ def battle_tower():
             xp =int(args['xp'])
             opponent = {'name':name,'atk':atk,"hp":hp,"power":pow}
             result=btl(monster,opponent)
-            if result =="win":
+            if result['result'] == "win":
                 playerBank = int(player['money'])
                 playerBank += int(prize)
                 if stage > player['battleTower']:
@@ -146,8 +146,8 @@ def battle_tower():
                 else: db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'money':playerBank}})
 
                 expcheck(current_user.id,xp)
-                return result
-            else: return result
+                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent)
+            else: return render_template('/partials/battleScreen.html',result=result,monster=monster,opponent=opponent)
     return render_template('/partials/battletower.html', bt=bt, player=player)
 
 
