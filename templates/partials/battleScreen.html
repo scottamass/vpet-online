@@ -1,6 +1,6 @@
 <div class="container" id="monster">
     <div class="row">
-     <div class="col-6 col-sm-6 col-md-6 col-lg-2 order-xs-1 order-sm-1 order-md-1">   
+     <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-xs-1 order-sm-1 order-md-1">   
         <!-- {{monster}} -->
         <div class="card" style="width:10rem;">
         <div class="card-body text-center">
@@ -10,7 +10,7 @@
 
         </div>
       </div></div>   
-     <div class="col-12 col-sm-12 col-md-12 col-lg-7 order-xs-3 order-3 order-sm-3 order-md-2 d-flex flex-column-reverse" style="max-height: 70vh;overflow-x: scroll;overflow-y:auto" >
+     <div class="col-12 col-sm-12 col-md-12 col-lg-6 order-xs-3 order-3 order-sm-3 order-md-2 d-flex flex-column-reverse" style="max-height: 70vh;overflow-x: scroll;overflow-y:auto" >
     {% for r in result.log %}
     {% if r.player==1  %}
     <div class="card bg-success" id="card{{ loop.index0 }}" style="width:18rem; opacity: 0;">
@@ -30,7 +30,7 @@
       </script>
     {% endfor %}
 </div>
-    <div class="col-6 col-sm-6 col-md-2 col-lg-2 order-xs-2 order-2 order-sm-2 order-md-3 order-md-1">
+    <div class="col-6 col-sm-6 col-md-2 col-lg-3 order-xs-2 order-2 order-sm-2 order-md-3 order-md-1">
         <!-- {{opponent}} -->
         <div class="card" style="width:10rem;">
             <div class="card-body text-center">
