@@ -13,10 +13,11 @@ from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_mon
 
 
 mongo_connect=os.getenv('M_CONNECTION_STRING')
+print(mongo_connect)
 db= MongoClient(mongo_connect)
 
 VERSION='0.5'
-
+#db.playerMonster.monsters.update_many({},{'$set': {"seris": 1}})
 class User(UserMixin):
     def __init__(self,id,username,pic,role):
         
@@ -141,13 +142,26 @@ def battle_tower():
             if result['result'] == "win":
                 playerBank = int(player['money'])
                 playerBank += int(prize)
+                mwins = monster['wins'] 
+                mwins += 1
+                pwins = player['wins']
+                pwins += 1
                 if stage > player['battleTower']:
-                    db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{"battleTower":stage,'money':playerBank}})
-                else: db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'money':playerBank}})
+                    db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{"battleTower":stage,'money':playerBank,"wins":pwins,}})
+                    db.playerMonster.monsters.update_one({'_id':monster['_id']},{'$set':{"wins":mwins}})
+                else: 
+                    db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'money':playerBank,"wins":pwins}})
+                    db.playerMonster.monsters.update_one({'_id':monster['_id']},{'$set':{"wins":mwins}})
+
 
                 expcheck(current_user.id,xp)
                 return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent)
-            else: return render_template('/partials/battleScreen.html',result=result,monster=monster,opponent=opponent)
+            else: 
+                losses = monster['losses'] 
+                losses += 1
+                db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'losses':losses}})
+                
+                return render_template('/partials/battleScreen.html',result=result,monster=monster,opponent=opponent)
     return render_template('/partials/battletower.html', bt=bt, player=player)
 
 
@@ -189,7 +203,7 @@ def register():
             print(requested_user)
             user_uid = requested_user["_id"]
             #add user to profile db
-            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":"player",'battleTower':0,"money":100})
+            db.userProfiles.userProfiles.insert_one({'auth_id':user_uid,'username':user,"profilePic":None,"role":"player",'battleTower':0,"money":100,'wins':0,'losses':0})
             return redirect(url_for('login'))
     else: return render_template("register.html")            
 
@@ -236,6 +250,12 @@ def api_register():
             return redirect(url_for('login'))
     else: return render_template("register.html")       
 
+@app.route('/admin')
+@login_required
+def admin_screen():
+    if current_user.roles == 'admin':
+        return '<h1>admin screen</h1>'
+    else: return 'access denined'
 
 @app.route('/api/login',methods=['POST','GET'] )
 def api_login():
