@@ -260,7 +260,7 @@ def api_register():
 @login_required
 def admin_screen():
     if current_user.roles == 'admin':
-        return render_template('templates/adminscreen.html')
+        return render_template('adminscreen.html')
     else: return 'access denined'
 
 @app.route('/api/login',methods=['POST','GET'] )
