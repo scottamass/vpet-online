@@ -7,6 +7,7 @@ from pymongo import DESCENDING, MongoClient
 from bson import json_util,ObjectId
 import os
 from battletest import battle as btl
+from dbjobs import dbjobsonerun
 from functions.battletower import battleTower 
 from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_monster, give_monster_to_player, remove_food_monster
 
@@ -184,7 +185,12 @@ def post_game():
 
 
 ################ USER MANAGEMENT AND AUTH ##################
-    
+@app.route('/dbjobs')
+@login_required
+def dbjobsadmin():
+    status = dbjobsonerun()
+    return status 
+
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -254,7 +260,7 @@ def api_register():
 @login_required
 def admin_screen():
     if current_user.roles == 'admin':
-        return '<h1>admin screen</h1>'
+        return render_template('templates/adminscreen.html')
     else: return 'access denined'
 
 @app.route('/api/login',methods=['POST','GET'] )
