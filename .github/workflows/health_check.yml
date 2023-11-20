@@ -12,7 +12,7 @@ jobs:
     - name: Health Check
       run: |
         # Replace the URL with the actual URL of your Flask health check endpoint
-        status_code=$(curl -sS -o /dev/null -w "%{http_code}" )
+        status_code=$(curl -sS -o /dev/null -w "%{http_code}" https://vpet-online.onrender.com/healthcheck)
 
         if [ $status_code -eq 200 ]; then
           echo "Health check passed with status code $status_code"
