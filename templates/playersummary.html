@@ -67,10 +67,10 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Choose a Monster</h5>
-                                        <div class="row">
+                                        <div class="row d-flex flex-row">
                                             <!-- egg selector-->
-                                            <div class="col-md-4">
-                                                <div class="card text-center">
+                                            
+                                                <div class="card text-center" style="width:10rem;">
                                                     <img src="{{ url_for('static', filename='eggs/digitama_c1.gif' )}}"
                                                         class="card-img-top" alt="Pokemon Crystal">
                                                     <div class="card-body">
@@ -81,7 +81,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            
+                                            <div class="card text-center" style="width:10rem;" >
+                                                <img src="{{ url_for('static', filename='eggs/digitama_be_dwy.gif' )}}"
+                                                    class="card-img-top" alt="Pokemon Crystal">
+                                                <div class="card-body">
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" value=14 id=1 name="options"
+                                                            class="custom-control-input">
+                                                        <label class="custom-control-label" for=1>tsubumon</label>
+                                                    </div>
+                                                </div>
                                             </div>
+                                        
                                             <!---->
                                         </div>
                                     </div>

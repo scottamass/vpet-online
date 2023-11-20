@@ -177,6 +177,8 @@ def post_game():
     newmonster = Post(game,poster_id,posted_date)
     give_monster_to_player(newmonster)
     return redirect(url_for('index'))
+
+
     
 
 
@@ -281,6 +283,11 @@ def api_login():
             else: return jsonify({"error":"unauthorized"}),401
         else: return jsonify({"error":"unauthorized"}),401
     else: return render_template("login.html")    
+
+
+@app.route('/healthcheck')
+def healthcheck():
+    return jsonify({'status': 'ok', 'message': 'Health check passed'})
 
 if __name__=="__main__":
     app.run(debug=True ,host='0.0.0.0' ,port='80')

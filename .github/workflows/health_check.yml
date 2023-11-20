@@ -1,0 +1,22 @@
+name: Health Check
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Health Check
+      run: |
+        # Replace the URL with the actual URL of your Flask health check endpoint
+        status_code=$(curl -sS -o /dev/null -w "%{http_code}" )
+
+        if [ $status_code -eq 200 ]; then
+          echo "Health check passed with status code $status_code"
+        else
+          echo "Health check failed with status code $status_code"
+          exit 1
+        fi
