@@ -18,7 +18,7 @@
     <div class="card" id="card{{ loop.index0 }}" style="width:18rem; opacity: 0;">
     {% endif %}
         <div class="card-body">
-            <h5 class="card-title">{{ r.dialog }}</h5>
+            <h5 class="card-title">{{ r.dialog|safe }}</h5>
         </div>
     </div>
     <script>

@@ -40,7 +40,14 @@ def battle(monster1,monster2):
             message = {'player':1,'dialog':f'{p1} struck {p2} for {p1atk} damage leaving them with {p2hp} hp'}
             battlelog.append(message)
             if p2hp <=0:
-                message = {'player':1,'dialog':'You were Victorious'}
+                message = {'player':1,'dialog':"""<p>You were Victorious</p>
+                           <p> <button  hx-get="/part/monster" hx-trigger="click" hx-target="#monster">
+ back to digimon 
+</button><button  hx-get="/battle" hx-trigger="click" hx-target="#monster">
+ back to battle menu 
+</button></p>
+                           
+                           """}
                 battlelog.append(message)
                 print(battlelog)
                 return {'log':battlelog,'result':'win'}
@@ -49,7 +56,12 @@ def battle(monster1,monster2):
             message = {'player':2,'dialog':f'{p2} struck {p1} for {p2atk} damage leaving you with {p1hp} hp'}
             battlelog.append(message)
             if p1hp <=0:
-                message = {'player':2,'dialog':'You Lost'}
+                message = {'player':2,'dialog':"""<p>You Lost</p>
+                            <p> <button  hx-get="/part/monster" hx-trigger="click" hx-target="#monster">
+ back to digimon 
+</button><button  hx-get="/battle" hx-trigger="click" hx-target="#monster">
+ back to battle menu 
+</button></p>"""}
                 battlelog.append(message)
                 print(battlelog)
                 return {'log':battlelog,'result':'loose'}
