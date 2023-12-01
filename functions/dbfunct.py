@@ -8,7 +8,7 @@ db= MongoClient(mongo_connect)
 
 def give_monster_to_player(game):
         monster= db.monsterdb.monsters.find_one({'id':int(game.game)})
-        post_to_db={"monster_id":game.game,"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'basepower':monster['power'],'basehp':monster['hp'],'power':0,'atk':0,'hp':0,'name':monster['name'],'baseatk':monster['atk'],"stage":1,"traning":0,"exp":0,"level":1,'hunger':0,"overfeed":0,'seris':monster['seris'],'wins':0,'losses':0}
+        post_to_db={"monster_id":game.game,"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'basepower':monster['power'],'basehp':monster['hp'],'power':0,'atk':0,'hp':0,'name':monster['name'],'baseatk':monster['atk'],"stage":1,"traning":0,"exp":0,"level":1,'hunger':0,"overfeed":0,'seris':monster['seris'],'wins':0,'losses':0,'type':monster['type']}
         db.playerMonster.monsters.insert_one(post_to_db)
 
 
@@ -49,7 +49,7 @@ def evocheck(id):
                 if time_difference >= timedelta(minutes=10):
                     monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                     monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolve'])})
-                    db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":2,"overfeed":0}})
+                    db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":2,"overfeed":0,'type':monsternew['type']}})
        if monster['stage'] == 2:      
               print('stage 2')   
               time_difference = current_time - monster['posted_date']
@@ -61,13 +61,13 @@ def evocheck(id):
                             
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvea'])})
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
                      else:
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             print(monster)
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
                             print(monsternew)
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
        if monster['stage'] ==3:
               time_difference = current_time - monster['posted_date']
               if time_difference >= timedelta(hours=36):
@@ -75,25 +75,25 @@ def evocheck(id):
                             
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvec'])})
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
                      elif monster['traning'] >=4 :
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             print(monster)
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvea'])})
                             print(monsternew)
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
                      elif monster['traning'] >=2:
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             print(monster)
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
                             print(monsternew)
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
                      else:
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             print(monster)
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolved'])})
                             print(monsternew)
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})  
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":4,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})  
        if monster['stage'] == 4:
               print(monster)
               if monster['monster_id'] != 9:
@@ -105,20 +105,20 @@ def evocheck(id):
                                    print(monster)
                                    monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvea'])})
                                    print(monsternew)
-                                   db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":5,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})  
+                                   db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":5,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})  
                             elif monster['wins'] >= monster['losses'] :
                                    monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                                    print(monster)
                                    monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
                                    print(monsternew)
-                                   db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":5,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})  
+                                   db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":5,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})  
 
                             else: 
                                    monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                                    print(monster)
                                    monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
                                    print(monsternew)
-                                   db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":5,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0}})  
+                                   db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":5,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})  
 
                      
               else: print('you cant ')     

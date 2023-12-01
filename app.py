@@ -3,6 +3,7 @@ import datetime
 from flask import Flask, Response, flash, jsonify, redirect, request,session , render_template, url_for
 from flask_login import LoginManager, UserMixin, login_required,login_user,current_user, logout_user
 from flask_bcrypt import Bcrypt
+import requests
 from pymongo import DESCENDING, MongoClient
 from bson import json_util,ObjectId
 import os
@@ -288,6 +289,55 @@ def api_login():
 @app.route('/healthcheck')
 def healthcheck():
     return jsonify({'status': 'ok', 'message': 'Health check passed'})
+
+
+@app.route('/login/discord')
+def login_discord():
+
+    url_discord = os.getenv('DISCORD_URL')
+    return redirect(url_discord)
+
+@app.route('/login/discord/callback')
+def login_discord_callback():
+    code = request.args['code']
+    secret =os.getenv('DISCORD_SECRET')
+    client_id = os.getenv('DISCORD_CLIENT')
+    uri_redirect = os.getenv('URL_REDIRECT')
+    
+    token_params = {
+            'client_id': client_id,
+            'client_secret': secret,
+            'grant_type': 'authorization_code',
+            'code': code,
+            'redirect_uri': f'{uri_redirect}/login/discord/callback',
+            'scope': 'identify'
+        }
+    res= requests.post('https://discord.com/api/oauth2/token',data=token_params)
+    data = res.json()
+    if 'access_token' in data:
+            # Fetch user information using the access token
+            user_url = 'https://discord.com/api/users/@me'
+            headers = {'Authorization': f'Bearer {data["access_token"]}'}
+            user_response = requests.get(user_url, headers=headers)
+            user_data = user_response.json()
+            #print(user_data)
+            did=user_data['id']
+            dun=user_data['username']
+            print(did)
+            query= db.userProfiles.userProfiles.find_one({"auth_id":did})
+            if query == None:
+                db.userProfiles.userProfiles.insert_one({'auth_id':did,'username':dun,"profilePic":None,"role":"player",'battleTower':0,"money":100,'wins':0,'losses':0})
+                query= db.userProfiles.userProfiles.find_one({"auth_id":did})
+                user_id = query
+                #user = User(user_id,user_name['username'],None,user_name['role'])
+            else: 
+                print('user Exists')
+                query= db.userProfiles.userProfiles.find_one({"auth_id":did})
+                print(query)
+                user_id = query['_id']
+                user = User(user_id,query['username'],None,query['role'])                
+                login_user(user, remember=True)
+    return redirect('/player')
 
 if __name__=="__main__":
     app.run(debug=True ,host='0.0.0.0' ,port='80')
