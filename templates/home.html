@@ -1,7 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
-{% include "nav.html" %}
-<div class="container">
-    <h1>Hello</h1>
-</div>
+<!-- {% include "nav.html" %} -->
+
+    <div class="hero bga" style="background-image: url('static/bg/1.jpeg');">
+    <div class="px-4 py-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <h1 class="display-5 fw-bold">V-Pet Online</h1>
+        <div class="col-lg-6 mx-auto">
+          <p class="lead mb-4">The Retro Styled Monster Care and Batteling game</p>
+          <!-- <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Primary button</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Secondary</button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <section style="background-color: #E2F1F1" class="hero flex justify-content-center bga pt-5">
+    {% if current_user.is_authenticated  %}
+    <section > 
+        <div class="mt-5" style="text-align: center;"><h2>Welcome back , {{current_user.username}}</h2>
+        <a href="/player"><button class="btn btn-dark btn-lg">go to your monster</button>
+        </a>
+        </div>
+
+    </section>
+    {% else %}
+    <section class="container d-flex flex-column justify-content-center">
+        <div  class="text-center d-flex flex-column justify-content-center mx-auto databox">
+            <h2>Decend in to the Digital World</h2>
+            <p>With your Digital Partner, you can embark on different adventures. Grow strong and evolve into a selection of different monsters.</p>
+        </div>
+        <div class="mt-5" style="text-align: center;">
+            <h2>New to us?</h2>
+            <a href="/register"><button class="btn btn-dark btn-lg">Create an account</button></a>
+        </div>
+        <div class="mt-5" style="text-align: center;">
+            <h2>Already have an Account? Login</h2>
+            <a href="/login"><button class="btn btn-dark btn-lg">Login</button></a>
+        </div>
+    </section>
+    
+    {% endif %}
+    </section>
+    <section class="hero" style="background-color: #383838;">
+
+    </section>
+
+<style>
+    .hero{
+        height:100vh
+    }
+    .bga {
+        position: relative;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+
+    }
+    .databox {
+        width: 70vw;
+    }
+    
+    @media (max-width: 540px) {
+        .databox {
+            width: 95vw;
+        }
+    }
+    
+    
+</style>
 {% endblock %}
