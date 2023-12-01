@@ -329,7 +329,9 @@ def login_discord_callback():
                 db.userProfiles.userProfiles.insert_one({'auth_id':did,'username':dun,"profilePic":None,"role":"player",'battleTower':0,"money":100,'wins':0,'losses':0})
                 query= db.userProfiles.userProfiles.find_one({"auth_id":did})
                 user_id = query
-                #user = User(user_id,user_name['username'],None,user_name['role'])
+                user_id = query['_id']
+                user = User(user_id,query['username'],None,query['role'])                
+                login_user(user, remember=True)
             else: 
                 print('user Exists')
                 query= db.userProfiles.userProfiles.find_one({"auth_id":did})
