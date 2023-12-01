@@ -300,8 +300,8 @@ def login_discord():
 @app.route('/login/discord/callback')
 def login_discord_callback():
     code = request.args['code']
-    secret ='-COPvVmKghg380y-e6mDL--lE5mD7hz4'
-    client_id = '1179742263044227134'
+    secret =os.getenv('DISCORD_SECRET')
+    client_id = os.getenv('DISCORD_CLIENT')
     uri_redirect = os.getenv('URL_REDIRECT')
     
     token_params = {
