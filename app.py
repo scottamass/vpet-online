@@ -15,7 +15,6 @@ from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_mon
 
 
 mongo_connect=os.getenv('M_CONNECTION_STRING')
-print(mongo_connect)
 db= MongoClient(mongo_connect)
 
 VERSION='0.5'
@@ -310,7 +309,8 @@ def login_discord_callback():
             'grant_type': 'authorization_code',
             'code': code,
             'redirect_uri': f'{uri_redirect}/login/discord/callback',
-            'scope': 'identify'
+            'scope': 'identify',
+            'prompt':'none'
         }
     res= requests.post('https://discord.com/api/oauth2/token',data=token_params)
     data = res.json()
