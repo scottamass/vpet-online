@@ -122,7 +122,15 @@ def evocheck(id):
 
                      
               else: print('you cant ')     
-
+def update_stat(id,stat,ammount):
+       query = {"active": True, "poster_id": id} 
+       stats= db.playerMonster.monsters.find_one(query)
+       stat_single=stats[stat]
+       print(stat_single)
+       stat_single += ammount
+       db.playerMonster.monsters.update_one(query,{'$set':{stat:ammount}})   
+       print('stat boost')
+       
 
 def expcheck(id,exp):
     query = {"active": True, "poster_id": id} 
@@ -151,8 +159,32 @@ def expcheck(id,exp):
     if xp >= 5000 and monster['stage'] >=4:
            level =10           
     if mlevel != level:
-           flash('Ding')
-           db.playerMonster.monsters.update_one(query,{'$set':{'level':level}})     
+              flash('Ding')
+              db.playerMonster.monsters.update_one(query,{'$set':{'level':level}})  
+              if level == 3:
+                     print('update stat')
+                     update_stat(id,"atk",1) 
+              if level ==4:
+                     update_stat(id,'hp',1)
+                     update_stat(id,"atk",1) 
+              if level ==5:
+                     update_stat(id,"power",2)
+              if level ==6:  
+                     update_stat(id,"hp",2)   
+                     update_stat(id,"power",2)
+              if level ==7:  
+                     update_stat(id,"atk",2)  
+              if level ==8:  
+                     update_stat(id,"hp",2)
+              if level ==9:  
+                     update_stat(id,"hp",2)
+              if level ==10:  
+                     update_stat(id,"hp",3)
+                     update_stat(id,"power",3)
+                     update_stat(id,"atk",2)
+
+                     
+         
     
 
 #expcheck(ObjectId('6541107d9a2ed6e684a6552c'),1 )                  

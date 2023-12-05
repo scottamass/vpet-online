@@ -6,3 +6,5 @@ Pipfile.lock
 templates/playersummary.html
 static/MissingNo.png
 functions/dbfunct.py
+templates/email.html
+.gitignore
