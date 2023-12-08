@@ -13,13 +13,14 @@ def hitcalc(monster1,monster2):
     return (hitrate)
 
 
-def player_turn():
-    monster2['hp'] -= monster1['atk']
+
+
 
 def opponent_turn():   
     monster1['hp'] -= monster2['atk']
 
-def battle(monster1,monster2):    
+def battle(monster1,monster2,loc):    
+    print(loc)
     batteling =True
     p1 =monster1['name']
     p1hp =monster1['hp'] + monster1['basehp']
@@ -32,7 +33,10 @@ def battle(monster1,monster2):
     p2atk = int(monster2['atk'])
     print(f'{p1}/{p1hp} v.s. {p2}/{p2hp}')
     battlelog =[]
+    turn=1
     while batteling == True:
+        print(f'Turn {turn}')
+        turn +=1
         hittate=hitcalc(monster1,monster2)
         dice = int(random.random() * 100)
         if dice <hittate:
@@ -41,15 +45,12 @@ def battle(monster1,monster2):
             battlelog.append(message)
             if p2hp <=0:
                 message = {'player':1,'dialog':"""<p>You were Victorious</p>
-                           <p> <button  hx-get="/part/monster" hx-trigger="click" hx-target="#monster">
- back to digimon 
-</button><button  hx-get="/battle" hx-trigger="click" hx-target="#monster">
- back to battle menu 
-</button></p>
-                           
-                           """}
+                 <p><a href='/player'><button>Back to digimon</button></a>
+                 <button {% if loc == 1 %}hx-get="/battle"{% else %}hx-get="/explore"{% endif %}
+                         hx-trigger="click" hx-target="#monster">Back to battle menu</button></p>
+              """}
                 battlelog.append(message)
-                print(battlelog)
+                
                 return {'log':battlelog,'result':'win'}
         else:
             p1hp -= p2atk
@@ -57,13 +58,14 @@ def battle(monster1,monster2):
             battlelog.append(message)
             if p1hp <=0:
                 message = {'player':2,'dialog':"""<p>You Lost</p>
-                            <p> <button  hx-get="/part/monster" hx-trigger="click" hx-target="#monster">
+                            <p> <a href='/player'><button>
  back to digimon 
-</button><button  hx-get="/battle" hx-trigger="click" hx-target="#monster">
+</button></a><button  hx-get="/battle" hx-trigger="click" hx-target="#monster">
  back to battle menu 
 </button></p>"""}
                 battlelog.append(message)
-                print(battlelog)
+                
+                
                 return {'log':battlelog,'result':'loose'}
                     
 

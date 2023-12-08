@@ -1,0 +1,30 @@
+<img class="mon-row" class=""src="{{ url_for('static', filename='' ~ monster.enemy ~ '.gif' ) }}" style="left:{{val}}%;"  alt="Monster Image" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{val}}">
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop{{val}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <img src="{{ url_for('static', filename='' ~ monster.enemy ~ '.gif' ) }}"   alt="Monster Image">
+            {{monster}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button data-bs-dismiss="modal" hx-post="/explore/monster?hp={{monster.hp}}&power={{monster.power}}&atk={{monster.atk}}&name={{monster.enemy}}&stage={{monster.stage}}&prize={{monster.prize}}&xp={{monster.xp}}" hx-target="#monster" class="card" style="width:18rem;" type="button" class="btn btn-primary">Battle!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<style>
+    .mon-row{
+        position: relative;
+        
+    }
+</style>
