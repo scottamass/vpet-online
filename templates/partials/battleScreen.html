@@ -1,66 +1,73 @@
-<div class="container" id="monster">
-  <div class="row d-flex align-items-center">
-      <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-xs-1 order-sm-1 order-md-1">
-          <!-- {{monster}} -->
-          <div class="card mx-auto" style="width:10rem;">
-              <div class="card-body text-center">
-                  <h5 class="card-title">Player </h5>
-                  <h6 class="card-subtitle mb-2 text-muted ">{{monster.name}}</h6>
-                  <img class=""src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
-              </div>
-          </div>
-      </div>   
-      <div class="col-12 col-sm-12 col-md-12 col-lg-6 order-xs-3 order-3 order-sm-3 order-md-2 d-flex align-items-center flex-column-reverse" style="max-height: 70vh;overflow-x: scroll;overflow-y:auto" >
-          {% for r in result.log %}
-              {% if r.player == 1 %}
-                  <div class="card bg-success" id="card{{ loop.index0 }}" style="width:18rem; opacity: 0;">
-              {% else %}
-                  <div class="card" id="card{{ loop.index0 }}" style="width:18rem; opacity: 0;">
-              {% endif %}
-                  <div class="card-body">
-                      <h5 class="card-title">{{ r.dialog|safe }}</h5>
-                  </div>
-                  <script>
-                      setTimeout(function() {
-                          var card = document.getElementById("card{{ loop.index0 }}");
-                          card.style.opacity = "1";
-                          document.getElementById("monster").scrollTop = card.offsetTop;
+<div class="container"  style="height: 90vh;">
+    <div class="row d-flex ">
+        <div class="col-6 col-sm-6 col-md-6 col-lg-3 order-xs-1 order-sm-1 order-md-1">
+            {{monster}} 
+            <div class="card mx-auto" style="width:10rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Player </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{monster.name}}</h6>
+                    <img class="" src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
+        
+                </div>
+            </div>
+        </div>   
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 order-xs-3 order-3 order-sm-3 order-md-2 d-flex align-items-center flex-column-reverse" style="max-height: 70vh;overflow-x: scroll;overflow-y:auto">
+            {% for r in result.log %}
+                {% if r.player == 1 %}
+                    <div class="card bg-success" id="card{{ loop.index0 }}" style="width:18rem; display: none;">
+                {% else %}
+                    <div class="card" id="card{{ loop.index0 }}" style="width:18rem; display: none;">
+                {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ r.dialog|safe }}</h5>
+                    </div>
+                    <script>
+                        setTimeout(function() {
+                            var card = document.getElementById("card{{ loop.index0 }}");
+                            card.style.display = "block"; // Show the current card
+                            
+                            // Hide the previous card
+                            {% if loop.index0 > 0 %}
+                                var prevCard = document.getElementById("card{{ loop.index0 - 1 }}");
+                                prevCard.style.display = "none";
+                            {% endif %}
 
-                          // Show the end card immediately after the last card
-                          {% if loop.last %}
-                              var endCard = document.getElementById("endcard");
-                              endCard.style.opacity = "1";
-                              document.getElementById("monster").scrollTop = endCard.offsetTop;
-                          {% endif %}
-                      }, {{ loop.index0 * 2000 }});  // Multiply by 2000 to convert seconds to milliseconds
-                  </script>
-              </div>
-          {% endfor %}
+
+                            // Show the end card immediately after the last card
+                            {% if loop.last %}
+                                var endCard = document.getElementById("endcard");
+                                endCard.style.display = "block";
+                                document.getElementById("monster").scrollTop = endCard.offsetTop;
+                            {% endif %}
+                        }, {{ loop.index0 * 2000 }});  // Multiply by 2000 to convert seconds to milliseconds
+                    </script>
+                </div>
+            {% endfor %}
       
+            <!-- Show the end card immediately after the last card -->
+            <div class="card" id="endcard" style="width:18rem; display: none;">
+                <div class="card-body">
+                    <h5 class="card-title">over</h5>
+                </div>
+                <script>
+                    setTimeout(function() {
+                        var endCard = document.getElementById("endcard");
+                        endCard.style.display = "block";
+                        document.getElementById("monster").scrollTop = endCard.offsetTop;
+                    }, {{ result.log|length * 2000 }});  // Show after the loop has completed
+                </script>
+            </div>
+        </div>
 
-      <!-- Show the end card immediately after the last card -->
-      <div class="card" id="endcard" style="width:18rem; opacity: 0;">
-          <div class="card-body">
-              <h5 class="card-title">over</h5>
-          </div>
-          <script>
-              setTimeout(function() {
-                  var endCard = document.getElementById("endcard");
-                  endCard.style.opacity = "1";
-                  document.getElementById("monster").scrollTop = endCard.offsetTop;
-              }, {{ result.log|length * 2000 }});  // Show after the loop has completed
-          </script>
-      </div>
-                  </div>
-      <div class="col-6 col-sm-6 col-md-2 col-lg-3 order-xs-2 order-2 order-sm-2 order-md-3 order-md-1">
-          <!-- {{opponent}} -->
-          <div class="card mx-auto" style="width:10rem;">
-              <div class="card-body text-center">
-                  <h5 class="card-title">Opponent </h5>
-                  <h6 class="card-subtitle mb-2 text-muted ">{{opponent.name}}</h6>
-                  <img class=""src="{{ url_for('static', filename='' ~ opponent.name ~ '.gif' ) }}" alt="Monster Image">
-              </div>
-          </div>
-      </div>
-  </div>
+        <div class="col-6 col-sm-6 col-md-2 col-lg-3 order-xs-2 order-2 order-sm-2 order-md-3 order-md-1">
+            <!-- {{opponent}} -->
+            <div class="card mx-auto" style="width:10rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Opponent </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{opponent.name}}</h6>
+                    <img class="" src="{{ url_for('static', filename='' ~ opponent.name ~ '.gif' ) }}" alt="Monster Image">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
