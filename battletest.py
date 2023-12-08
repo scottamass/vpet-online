@@ -45,9 +45,7 @@ def battle(monster1,monster2,loc):
             battlelog.append(message)
             if p2hp <=0:
                 message = {'player':1,'dialog':"""<p>You were Victorious</p>
-                 <p><a href='/player'><button>Back to digimon</button></a>
-                 <button {% if loc == 1 %}hx-get="/battle"{% else %}hx-get="/explore"{% endif %}
-                         hx-trigger="click" hx-target="#monster">Back to battle menu</button></p>
+                 
               """}
                 battlelog.append(message)
                 
@@ -58,11 +56,7 @@ def battle(monster1,monster2,loc):
             battlelog.append(message)
             if p1hp <=0:
                 message = {'player':2,'dialog':"""<p>You Lost</p>
-                            <p> <a href='/player'><button>
- back to digimon 
-</button></a><button  hx-get="/battle" hx-trigger="click" hx-target="#monster">
- back to battle menu 
-</button></p>"""}
+                            """}
                 battlelog.append(message)
                 
                 

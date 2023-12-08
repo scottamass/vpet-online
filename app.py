@@ -161,7 +161,7 @@ def explore_monster():
 
 
                 expcheck(current_user.id,xp)
-                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent)
+                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent,loc=1)
             else: 
                 losses = monster['losses'] 
                 losses += 1
@@ -209,7 +209,7 @@ def battle_tower():
 
 
                 expcheck(current_user.id,xp)
-                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent)
+                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent,loc=0)
             else: 
                 losses = monster['losses'] 
                 losses += 1
