@@ -13,6 +13,7 @@ from dbjobs import dbjobsonerun
 from explore import random_number
 from functions.battletower import battleTower 
 from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_monster, give_monster_to_player, remove_food_monster
+from functions.items import add_item_to_player, remove_item_from_player
 
 
 
@@ -246,7 +247,18 @@ def dbjobsadmin():
     status = dbjobsonerun()
     return status 
 
+@app.route('/item_test')
+@login_required
+def item_test():
+    print(current_user)
+    item=add_item_to_player(1,current_user.id)
+    return item
 
+@app.route('/item_test-remove')
+@login_required
+def item_remove():
+    item = remove_item_from_player(1, current_user.id)
+    return item
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
@@ -315,7 +327,8 @@ def api_register():
 @login_required
 def admin_screen():
     if current_user.roles == 'admin':
-        return render_template('adminscreen.html')
+        itemsarray = db.userProfiles.userItems.find_one({'player_id':current_user.id})
+        return render_template('adminscreen.html',items=itemsarray)
     else: return 'access denined'
 
 @app.route('/api/login',methods=['POST','GET'] )

@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "nav.html" %}
+{{items}}
 <div class="container">
     <button hx-get="/dbjobs"> press me on prod</button>
+</div>
+<div class="container">
+    <button hx-get="/item_test"> item test</button>
+</div>
+<div class="container">
+    <button hx-get="/item_test-remove"> item test remove</button>
 </div>
 {% endblock %}
