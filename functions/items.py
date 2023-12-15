@@ -6,8 +6,10 @@ db= MongoClient(mongo_connect)
 players_items = db.userProfiles.userItems
 
 items =[
-    {'id':0,"name":'atk up','type':'atk','increase':1},
-    {'id':1,"name":'def up','type':'def','increase':1},
+    {'id':0,"name":'atk up','type':'atk','increase':1,'value':50},
+    {'id':1,"name":'def up','type':'def','increase':1,'value':50},
+    {'id':2,"name":'poinson claw','type':'eff','value':150},
+    {'id':3,"name":'big meat','type':'cons','stat':'hunger','increase':1,'value':150},
 ]
 
 #player item management 
