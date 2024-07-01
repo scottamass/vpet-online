@@ -39,20 +39,7 @@
 
         </div>
         <div class="col col-sm-12 col-md-6">
-            <p><span>Hunger:</span>
-                {% if monster.hunger > 0 %}
-                  {% if monster.hunger > 4 %}
-                    {% set heartCount = 4 %}
-                  {% else %}
-                    {% set heartCount = monster.hunger %}
-                  {% endif %}
-                  {% for _ in range(heartCount) %}
-                    ❤️
-                  {% endfor %}
-                {% else %}
-                  No Hunger
-                {% endif %}
-              </p>
+            
               
               
 
@@ -65,12 +52,10 @@
     </div>
 </section>
 <section class="buttons d-flex" style="flex-wrap: wrap;">
-    {% if monster.hunger <= 6  %}
-    <button hx-get="/feed" hx-target="#mon" type="button" class="btn btn-secondary" >Feed</button>    
-    {% endif %}
-    {% if monster.hunger >=1 %}
+
+
     <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary" >Train</button>
-    {% endif %}
+
     {% if monster.stage >= 3 %}
     <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-secondary" >Battle</button>
     {% endif %}

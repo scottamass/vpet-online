@@ -12,7 +12,7 @@ from battletest import battle as btl
 from dbjobs import dbjobsonerun
 from explore import random_number
 from functions.battletower import battleTower 
-from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_monster, give_monster_to_player, remove_food_monster
+from functions.dbfunct import evocheck, expcheck, fetch_player_monster, give_monster_to_player
 from functions.items import add_item_to_player, remove_item_from_player
 
 
@@ -73,8 +73,9 @@ def index():
 def player():
     monster=fetch_player_monster(current_user.id)
     if monster != None:
-        evocheck(current_user.id)
+        # evocheck(current_user.id)
         monster=fetch_player_monster(current_user.id)
+        print(monster)
     backgroundUrl='/static/bg/1.jpeg'
     
     return render_template('playersummary.html' ,monster=monster ,backgroundUrl=backgroundUrl) 
@@ -95,32 +96,17 @@ def train():
         monster=fetch_player_monster(current_user.id)
         args=request.args
         train = args.get('training')
-        if monster['hunger'] >= 1 :
-            if train == '1':
-                remove_food_monster(current_user.id)
-                expcheck(current_user.id,5)
-                newtrain = monster['traning'] 
-                newtrain += 1
-                query = {"active": True, "poster_id": current_user.id} 
-                db.playerMonster.monsters.update_one(query,{'$set':{"traning":newtrain}})
-                return redirect(url_for('monster'))
-        else: 
-            flash('you cannot train you are too hungry')
-            return redirect(url_for('monster'))        
+        
+        expcheck(current_user.id,5)
+        newtrain = monster['traning'] 
+        newtrain += 1
+        query = {"active": True, "poster_id": current_user.id} 
+        db.playerMonster.monsters.update_one(query,{'$set':{"traning":newtrain}})
+        return redirect(url_for('monster'))
+    
     return render_template('/partials/traning.html')
 
-@app.route('/feed',methods=['POST','GET'])
-def feed():
-    if request.method == 'POST':
-        monster=fetch_player_monster(current_user.id)
-        args=request.args
-        food = args.get('food')
-        if food == 'meat':
-            feed_monster(current_user.id)
-            flash(f'you ate the {food} nom nom')
-        
-        return redirect(url_for('monster'))
-    return render_template('partials/feed.html')
+
 
 @app.route('/explore')
 def explore():

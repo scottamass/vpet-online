@@ -5,6 +5,9 @@ from pymongo import DESCENDING, MongoClient
 import os
 mongo_connect=os.getenv('M_CONNECTION_STRING')
 db= MongoClient(mongo_connect)
+import json
+
+
 
 def give_monster_to_player(game):
         monster= db.monsterdb.monsters.find_one({'id':int(game.game)})
@@ -15,29 +18,23 @@ def give_monster_to_player(game):
 def fetch_player_monster(id):      
         query = {"active": True, "poster_id": id} 
         monster=db.playerMonster.monsters.find_one(query)
- 
-        return(monster)
+        if monster == None:
+              # print(monster)
+              return(monster)
+        else :
+              #  print(monster)
+               with open('monsterdb.monsters2.json') as f:
+                     d = json.load(f)
+                     # print(d)
+                     for i in d :
+                            if i['id'] == monster['monster_id']:
+                                   # print(i)
+                                   monster_new ={'_id': monster['_id'], 'monster_id': monster['monster_id'], 'poster_id': monster['poster_id'], 'posted_date': monster['posted_date'], 'active': monster['active'], 'basepower': i['power'], 'basehp': i['hp'], 'power': monster['power'], 'atk': monster['atk'], 'hp': monster['hp'], 'name': i['name'], 'baseatk': i['atk'], 'stage': i['stage'], 'traning': monster['traning'], 'exp': monster['exp'], 'level': monster['level'], 'wins': monster['wins'] ,'losses': monster['losses'], 'type': i['type']}
+               return(monster_new)
 
-def feed_monster(id):
-       query = {"active": True, "poster_id": id} 
-       monster=db.playerMonster.monsters.find_one(query) 
-       hunger= monster['hunger']  
-       hunger += 1
-       db.playerMonster.monsters.update_one(query,{'$set':{"hunger":hunger}})
-       if hunger == 7:
-              try:
-                     of = monster['overfeed']
-                     of += 1
-                     db.playerMonster.monsters.update_one(query,{'$set':{"overfeed":of}})
-              except KeyError:
-                     db.playerMonster.monsters.update_one(query,{'$set':{"overfeed":1}})  
 
-def remove_food_monster(id):
-       query = {"active": True, "poster_id": id} 
-       monster=db.playerMonster.monsters.find_one(query) 
-       hunger= monster['hunger']  
-       hunger -= 1
-       db.playerMonster.monsters.update_one(query,{'$set':{"hunger":hunger}})
+
+
 
 def evocheck(id):
        query = {"active": True, "poster_id": id} 
@@ -54,7 +51,7 @@ def evocheck(id):
               print('stage 2')   
               time_difference = current_time - monster['posted_date']
               print(time_difference)
-              if time_difference >= timedelta(hours=8):
+              if time_difference >= timedelta(minutes=30):
                      print('ready')
                      print(monster['traning'])
                      if monster['traning'] >=4:
@@ -62,12 +59,7 @@ def evocheck(id):
                             monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
                             monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolvea'])})
                             db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
-                     else:
-                            monster=db.monsterdb.monsters.find_one({'id':int(monster['monster_id'])})
-                            print(monster)
-                            monsternew= db.monsterdb.monsters.find_one({'id':int(monster['evolveb'])})
-                            print(monsternew)
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],"name":monsternew['name'],"stage":3,"basehp":monsternew['hp'],'baseatk':monsternew['atk'],"basepower":monsternew['power'],"overfeed":0,'traning':0,'type':monsternew['type']}})
+                     
        if monster['stage'] ==3:
               time_difference = current_time - monster['posted_date']
               if time_difference >= timedelta(hours=36):
