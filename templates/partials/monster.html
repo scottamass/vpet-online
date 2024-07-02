@@ -31,6 +31,7 @@
 </section>
 <section>
     <div class="container Rinner row">
+      {{monster}}
         <div class="col col-sm-12 col-md-6">
             <p><span>name:</span> {{monster.name}}</p>
             <p><span>stage:</span> {{monster.stage}}</p>
@@ -62,6 +63,16 @@
     <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
     <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
     <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
+</section>
+<section class="buttons d-flex" style="flex-wrap: wrap;">
+
+  {% if monster.evo == True %}
+    <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-danger" >Evolve</button>
+    {% endif %}
+
+  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
+  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
+  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
 </section>
 <!-- <script>
 // Add an event listener for when the document is ready
