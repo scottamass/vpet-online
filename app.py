@@ -12,7 +12,7 @@ from battletest import battle as btl
 from dbjobs import dbjobsonerun
 from explore import random_number
 from functions.battletower import battleTower 
-from functions.dbfunct import evocheck, expcheck, fetch_player_monster, give_monster_to_player
+from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, give_monster_to_player
 from functions.items import add_item_to_player, remove_item_from_player
 
 
@@ -107,6 +107,11 @@ def train():
     return render_template('/partials/traning.html')
 
 
+@app.route('/evolve')
+def evolve():
+    # print('evolve')
+    evo_mon(current_user.id)
+    return redirect(url_for('monster'))
 
 @app.route('/explore')
 def explore():

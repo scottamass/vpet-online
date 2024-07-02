@@ -1,73 +1,65 @@
 <h2>My Monster</h2>
 <section id="mon" class=" container bga" style="background-image: url('static/bg/1.jpeg');">
-    {% for message in get_flashed_messages()%}
-<div class="alert alert-success alert-dismissible fade show" id="alert" role="alert">
+  {% for message in get_flashed_messages()%}
+  <div class="alert alert-success alert-dismissible fade show" id="alert" role="alert">
     {{message}}
     <button type="button" id="btn" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <script>
-    const butttonClose = document.getElementById('btn'),
-      alert = document.getElementById('alert');
-      
+      const butttonClose = document.getElementById('btn'),
+        alert = document.getElementById('alert');
+
       butttonClose.addEventListener('click', () => {
-  
-  alert.classList.remove('d-none');
-  
-  setTimeout(() => {
-    alert.classList.add('d-none');
-  }, 2000)
-  
-})
-</script>   
+
+        alert.classList.remove('d-none');
+
+        setTimeout(() => {
+          alert.classList.add('d-none');
+        }, 2000)
+
+      })
+    </script>
   </div>
 
-{% endfor %}
-    <div class="relative mx-auto">
-        <img class="monster-image frame1"
-            src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}" alt="Monster Image">
-        <img class="monster-image frame2"
-            src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
-            alt="Frame 2 Image">
-    </div>
+  {% endfor %}
+  <div class="relative mx-auto">
+    <img class="monster-image frame1" src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}"
+      alt="Monster Image">
+    <img class="monster-image frame2" src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
+      alt="Frame 2 Image">
+  </div>
 </section>
 <section>
-    <div class="container Rinner row">
-        <div class="col col-sm-12 col-md-6">
-            <p><span>name:</span> {{monster.name}}</p>
-            <p><span>stage:</span> {{monster.stage}}</p>
-            <p><span>Level:</span>{{monster.level}}</p>
-            <p><span>Exp:</span>{{monster.exp}}</p>
-
-        </div>
-        <div class="col col-sm-12 col-md-6">
-            
-              
-              
-
-          
-            <p><span>HP:</span> {{monster.hp+monster.basehp}}</p>
-            <p><span>Atk:</span>{{monster.atk+monster.baseatk}}</p>
-            <p><span>Power:</span>{{monster.basepower+monster.power}}</p>
-
-        </div>
+  <div class="container Rinner row">
+    <div class="col col-sm-12 col-md-6">
+      <p><span>name:</span> {{monster.name}}</p>
+      <p><span>stage:</span> {{monster.stage}}</p>
+      <p><span>Level:</span>{{monster.level}}</p>
+      <p><span>Exp:</span>{{monster.exp}}</p>
     </div>
+    <div class="col col-sm-12 col-md-6">
+      <p><span>HP:</span> {{monster.hp+monster.basehp}}</p>
+      <p><span>Atk:</span>{{monster.atk+monster.baseatk}}</p>
+      <p><span>Power:</span>{{monster.basepower+monster.power}}</p>
+    </div>
+  </div>
 </section>
 <section class="buttons d-flex" style="flex-wrap: wrap;">
 
 
-    <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary" >Train</button>
+  <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary">Train</button>
 
-    {% if monster.stage >= 3 %}
-    <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-secondary" >Battle</button>
-    {% endif %}
-    <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
-    <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
-    <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
+  {% if monster.stage >= 3 %}
+  <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-secondary">Battle</button>
+  {% endif %}
+  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
+  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
+  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
 </section>
 <section class="buttons d-flex" style="flex-wrap: wrap;">
 
   {% if monster.evo == True %}
-    <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-danger" >Evolve</button>
-    {% endif %}
+  <button type="button" hx-get="/evolve" hx-target="#monster" class="btn btn-danger">Evolve</button>
+  {% endif %}
 
   <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
   <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->

@@ -122,7 +122,7 @@ def evocheck(id):
        mon_data = call_monster(monster['monster_id'])
        if mon_data['stage'] == 1:
                 time_difference = current_time - monster['posted_date']
-                if time_difference >= timedelta(minutes=1):
+                if time_difference >= timedelta(minutes=10):
                     monster=call_monster(monster['monster_id'])
                     monsternew= call_monster(monster['evolve'])
                     db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False}})
@@ -139,7 +139,20 @@ def evocheck(id):
                             monster=monster=call_monster(monster['monster_id'])
                             monsternew= call_monster(monster['evolvea'])
                             db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False}})
-                     
+
+def evo_mon(id):
+       query = {"active": True, "poster_id": id} 
+       monster=db.playerMonster.monsters.find_one(query)
+       print(monster)    
+       if monster['evo'] == True:
+              print('time for evo ')  
+              monster=call_monster(monster['monster_id'])
+              # print(monster)
+              if monster['stage'] ==3:      
+                     monster=call_monster(monster['id'])
+                     monsternew= call_monster(monster['evolvea'])
+                     # print(monsternew)
+                     db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False}})     
 
 
 def update_stat(id,stat,ammount):
