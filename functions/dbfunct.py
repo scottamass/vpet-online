@@ -16,7 +16,7 @@ def give_monster_to_player(game):
         print(f"-------------------------Beginning function call ------------------------")
         monster= call_monster(1)
         print(f"-------------------------{monster}------------------------")
-        post_to_db={"monster_id":monster['id'],"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'power':0,'atk':0,'hp':0,"traning":0,"exp":0,"level":1,'wins':0,'losses':0,}
+        post_to_db={"monster_id":monster['id'],"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'power':0,'atk':0,'hp':0,"traning":0,"exp":0,"level":1,'wins':0,'losses':0,'evo':False}
         db.playerMonster.monsters.insert_one(post_to_db)
 
 
