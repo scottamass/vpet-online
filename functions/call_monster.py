@@ -7,4 +7,10 @@ def call_monster(data):
                      for i in d :
                             if i['id'] == data:
                                     return i 
+                            
+
+def call_monsters():
+            with open('monsterdb.monsters2.json') as f:
+                     d = json.load(f)
+            return d
 

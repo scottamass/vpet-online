@@ -142,17 +142,17 @@ def evocheck(id):
 
 def evo_mon(id):
        query = {"active": True, "poster_id": id} 
-       monster=db.playerMonster.monsters.find_one(query)
-       print(monster)    
-       if monster['evo'] == True:
+       player_monster=db.playerMonster.monsters.find_one(query)
+       print(player_monster)    
+       if player_monster['evo'] == True:
               print('time for evo ')  
-              monster=call_monster(monster['monster_id'])
+              monster=call_monster(player_monster['monster_id'])
               # print(monster)
               if monster['stage'] ==3:      
                      monster=call_monster(monster['id'])
-                     monsternew= call_monster(monster['evolvea'])
+                     monsternew= call_monster(monster['evolve'][0])
                      # print(monsternew)
-                     db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False}})     
+                     db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False, 'prev_evo':player_monster['monster_id']}})     
 
 
 def update_stat(id,stat,ammount):

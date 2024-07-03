@@ -12,6 +12,7 @@ from battletest import battle as btl
 from dbjobs import dbjobsonerun
 from explore import random_number
 from functions.battletower import battleTower 
+from functions.call_monster import call_monsters
 from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, give_monster_to_player
 from functions.items import add_item_to_player, remove_item_from_player
 
@@ -112,6 +113,11 @@ def evolve():
     # print('evolve')
     evo_mon(current_user.id)
     return redirect(url_for('monster'))
+
+@app.route('/directory')
+def directory():
+    monsters = call_monsters()
+    return render_template('directory.html',monsters=monsters)
 
 @app.route('/explore')
 def explore():

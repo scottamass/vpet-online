@@ -92,10 +92,7 @@
   "power": 15,
   "hp": 5,
   "atk": 1,
-  "evolvea": 5,
-  "evolveb": 7,
-  "evolvec": 8,
-  "evolved": 9,
+ "evolve":[5],
   "stage": 3,
   "seris": 1,
   "type": "Va"
@@ -128,9 +125,7 @@
   "power": 35,
   "hp": 8,
   "atk": 3,
-  "evolvea": 10,
-  "evolveb": 11,
-  "evolvec": 12,
+ "evolve":[12],
   "stage": 4,
   "seris": 1,
   "type": "Va"
