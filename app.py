@@ -39,12 +39,14 @@ class Post():
 
     
 
+
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 login_manager = LoginManager()
+
 
 @login_manager.unauthorized_handler
 def unauthenticated():
@@ -62,6 +64,9 @@ login_manager.init_app(app)
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
+@app.errorhandler(404)
+def error(error):
+    return 'sometimes server had died'
 
 @app.route('/')
 def index():
@@ -226,6 +231,7 @@ def post_game():
     poster_id = current_user.id
     posted_date = datetime.datetime.now()
     newmonster = Post(game,poster_id,posted_date)
+    
     give_monster_to_player(newmonster)
     return redirect(url_for('index'))
 

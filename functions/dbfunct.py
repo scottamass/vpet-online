@@ -12,9 +12,9 @@ import json
 
 
 def give_monster_to_player(game):
-        #print(game.game)
+        print(type(game.game))
         print(f"-------------------------Beginning function call ------------------------")
-        monster= call_monster(1)
+        monster= call_monster(int(game.game))
         print(f"-------------------------{monster}------------------------")
         post_to_db={"monster_id":monster['id'],"poster_id":game.poster_id,'posted_date':game.posted_date,'active':True,'power':0,'atk':0,'hp':0,"traning":0,"exp":0,"level":1,'wins':0,'losses':0,'evo':False}
         db.playerMonster.monsters.insert_one(post_to_db)
@@ -117,28 +117,34 @@ def fetch_player_monster(id):
 def evocheck(id):
        query = {"active": True, "poster_id": id} 
        monster=db.playerMonster.monsters.find_one(query)
+       pre_mon = monster['monster_id']
+       print(pre_mon)
        current_time = datetime.now()
        time_difference = current_time - monster['posted_date']
        mon_data = call_monster(monster['monster_id'])
        if mon_data['stage'] == 1:
                 time_difference = current_time - monster['posted_date']
-                if time_difference >= timedelta(minutes=10):
+                if time_difference >= timedelta(minutes=2):
                     monster=call_monster(monster['monster_id'])
                     monsternew= call_monster(monster['evolve'])
-                    db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False}})
+                    db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False,'prev_evo':pre_mon}})
       
        if mon_data['stage'] == 2:      
               print('stage 2')   
               time_difference = current_time - monster['posted_date']
               print(time_difference)
-              if time_difference >= timedelta(minutes=1):
+              if time_difference >= timedelta(minutes=10):
                      print('ready')
                      print(monster['traning'])
                      if monster['traning'] >=4:
                             
                             monster=monster=call_monster(monster['monster_id'])
                             monsternew= call_monster(monster['evolvea'])
-                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False}})
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False,'prev_evo':pre_mon}})
+                     else:
+                            monster=monster=call_monster(monster['monster_id'])
+                            monsternew= call_monster(monster['evolveb'])
+                            db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False,'prev_evo':pre_mon}})
 
 def evo_mon(id):
        query = {"active": True, "poster_id": id} 

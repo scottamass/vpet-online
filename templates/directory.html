@@ -7,16 +7,58 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
   {% endfor %}
-  <div class="container">
+  <div class="container justify-center">
 
       <div class="row pt-2">
           {% for m in monsters %}
-          <div class="card mb-2">
-            
-              <p>{{m}}</p>
-            </div>
+         
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                  <div class="col-md-4 relative">
+                    <img src="{{ url_for('static', filename='' ~ m.name ~ '.gif' ) }}" class="img-fluid monster-image  rounded-start" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{m.name}}</h5>
+                      <p class="card-text"><span class="badge rounded-pill bg-secondary">ID:{{m.id}}</span><span class="badge rounded-pill bg-{{m.type}}">Type:{{m.type}}</span></p>
+                      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {% endfor %}
           <!-- {{monsters}} -->
         </div>
     </div>
+
+    <style>
+        .bg-vi{
+            background-color: blue;
+        }
+        .bg-va{
+            background-color: rgb(34, 255, 0);
+        }
+        .bg-da{
+            background-color: yellow;
+            color: black    ;
+        }
+        .monster-image {
+       
+            width: 100%;
+            image-rendering: pixelated;
+         
+        }
+        .image-container {
+            position: relative;
+            width: 100%;
+            height: 100%; /* Make sure the parent div has a defined height */
+        }
+        
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image covers the entire div */
+            object-position: center; /* Center the image within the div */
+        }
+    </style>
 {% endblock %}
