@@ -1,0 +1,300 @@
+[{
+  "_id": {
+    "$oid": "654a605e640e51541f581b15"
+  },
+  "id": 8,
+  "name": "monochromon",
+  "slot": "c",
+  "power": 35,
+  "hp": 9,
+  "atk": 2,
+  "evolvea": 10,
+  "evolveb": 11,
+  "evolvec": 12,
+  "stage": 4,
+  "seris": 1,
+  "type": "Da"
+},
+{
+  "_id": {
+    "$oid": "6552386a640e51541f581b27"
+  },
+  "id": 10,
+  "name": "metalgreymon(vacine)",
+  "slot": "j",
+  "power": 100,
+  "hp": 12,
+  "atk": 4,
+  "evolvea": 9,
+  "evolveb": 9,
+  "evolvec": 9,
+  "stage": 5,
+  "seris": 1,
+  "type": "Va"
+},
+{
+  "_id": {
+    "$oid": "655b7ea2f37d4e18167ec9ce"
+  },
+  "id": 17,
+  "name": "patamon",
+  "slot": "b",
+  "power": 15,
+  "hp": 5,
+  "atk": 1,
+  "evolvea": 6,
+  "evolveb": 7,
+  "evolvec": 8,
+  "evolved": 9,
+  "stage": 3,
+  "seris": 1,
+  "type": "Va"
+},
+{
+  "_id": {
+    "$oid": "655b7ea2f37d4e18167ec9cc"
+  },
+  "id": 15,
+  "name": "upamon",
+  "slot": "b",
+  "power": 4,
+  "hp": 0,
+  "atk": 0,
+  "evolve":[16,17],
+  "evolvea": 16,
+  "evolveb": 17,
+  "stage": 2,
+  "seris": 1,
+  "type": "Fr"
+},
+{
+  "_id": {
+    "$oid": "65413ac740f36a4bb466d822"
+  },
+  "id": 999,
+  "name": "MissingNo",
+  "slot": "j",
+  "power": 220,
+  "hp": 20,
+  "atk": 5,
+  "evolvea": null,
+  "evolveb": null,
+  "stage": 5,
+  "seris": 1,
+  "type": "Fr"
+},
+{
+  "_id": {
+    "$oid": "65450c27640e51541f581aff"
+  },
+  "id": 3,
+  "name": "agumon",
+  "slot": "b",
+  "power": 15,
+  "hp": 5,
+  "atk": 1,
+ "evolve":[5],
+  "stage": 3,
+  "seris": 1,
+  "type": "Va"
+},
+{
+  "_id": {
+    "$oid": "65450d7f640e51541f581b00"
+  },
+  "id": 4,
+  "name": "agumon(black)",
+  "slot": "b",
+  "power": 15,
+  "hp": 5,
+  "atk": 1,
+  "evolvea": 6,
+  "evolveb": 7,
+  "evolvec": 8,
+  "evolved": 9,
+  "stage": 3,
+  "seris": 1,
+  "type": "Vi"
+},
+{
+  "_id": {
+    "$oid": "654a5f53640e51541f581b11"
+  },
+  "id": 5,
+  "name": "greymon",
+  "slot": "c",
+  "power": 35,
+  "hp": 8,
+  "atk": 3,
+ "evolve":[12],
+  "stage": 4,
+  "seris": 1,
+  "type": "Va"
+},
+{
+  "_id": {
+    "$oid": "654a5f9c640e51541f581b12"
+  },
+  "id": 6,
+  "name": "greymon(blue)",
+  "slot": "c",
+  "power": 35,
+  "hp": 8,
+  "atk": 3,
+  "evolvea": 13,
+  "evolveb": 11,
+  "evolvec": 12,
+  "stage": 4,
+  "seris": 1,
+  "type": "Vi"
+},
+{
+  "_id": {
+    "$oid": "654a5ffa640e51541f581b13"
+  },
+  "id": 7,
+  "name": "darktyranomon",
+  "slot": "c",
+  "power": 32,
+  "hp": 7,
+  "atk": 4,
+  "evolvea": 13,
+  "evolveb": 11,
+  "evolvec": 12,
+  "stage": 4,
+  "seris": 1,
+  "type": "Vi"
+},
+{
+  "_id": {
+    "$oid": "655238ed640e51541f581b28"
+  },
+  "id": 11,
+  "name": "vermillimon",
+  "slot": "j",
+  "power": 95,
+  "hp": 13,
+  "atk": 3,
+  "evolvea": 9,
+  "evolveb": 9,
+  "evolvec": 9,
+  "stage": 5,
+  "seris": 1,
+  "type": "Da"
+},
+{
+  "_id": {
+    "$oid": "65523941640e51541f581b29"
+  },
+  "id": 12,
+  "name": "skullgreymon",
+  "slot": "j",
+  "power": 115,
+  "hp": 10,
+  "atk": 6,
+  "evolvea": 9,
+  "evolveb": 9,
+  "evolvec": 9,
+  "stage": 5,
+  "seris": 1,
+  "type": "Vi"
+},
+{
+  "_id": {
+    "$oid": "65523982640e51541f581b2a"
+  },
+  "id": 13,
+  "name": "metalgreymon(virus)",
+  "slot": "j",
+  "power": 100,
+  "hp": 12,
+  "atk": 4,
+  "evolvea": 9,
+  "evolveb": 9,
+  "evolvec": 9,
+  "stage": 5,
+  "seris": 1,
+  "type": "Vi"
+},
+{
+  "_id": {
+    "$oid": "655b7ea2f37d4e18167ec9cb"
+  },
+  "id": 14,
+  "name": "tsubumon",
+  "slot": "a",
+  "power": 4,
+  "hp": 0,
+  "atk": 0,
+  "evolve": 15,
+  "stage": 1,
+  "seris": 1,
+  "type": "Fr"
+},
+{
+  "_id": {
+    "$oid": "653f8cce640e51541f581adb"
+  },
+  "id": 1,
+  "name": "botamon",
+  "slot": "a",
+  "power": 4,
+  "hp": 0,
+  "atk": 0,
+  "evolve": 2,
+  "stage": 1,
+  "seris": 1,
+  "type": "Fr"
+},
+{
+  "_id": {
+    "$oid": "6540a5b3640e51541f581ae9"
+  },
+  "id": 2,
+  "name": "koromon",
+  "slot": "b",
+  "power": 4,
+  "hp": 0,
+  "atk": 0,
+  "evolvea": 3,
+  "evolveb": 4,
+  "stage": 2,
+  "seris": 1,
+  "type": "Fr"
+},
+{
+  "_id": {
+    "$oid": "654a60e0640e51541f581b17"
+  },
+  "id": 9,
+  "name": "numemon",
+  "slot": "c",
+  "power": 28,
+  "hp": 6,
+  "atk": 2,
+  "evolvea": 9,
+  "evolveb": 9,
+  "evolvec": 9,
+  "stage": 4,
+  "seris": 1,
+  "type": "Vi"
+},
+{
+  "_id": {
+    "$oid": "655b7ea2f37d4e18167ec9cd"
+  },
+  "id": 16,
+  "name": "armadillomon",
+  "slot": "b",
+  "power": 15,
+  "hp": 5,
+  "atk": 1,
+  "evolve":[5,7,8,9],
+  "evolvea": 5,
+  "evolveb": 7,
+  "evolvec": 8,
+  "evolved": 9,
+  "stage": 3,
+  "seris": 1,
+  "type": "Va"
+}]

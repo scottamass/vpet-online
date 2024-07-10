@@ -1,5 +1,6 @@
 import json
 import datetime
+import random
 from flask import Flask, Response, flash, jsonify, redirect, request,session , render_template, url_for
 from flask_login import LoginManager, UserMixin, login_required,login_user,current_user, logout_user
 from flask_bcrypt import Bcrypt
@@ -9,8 +10,11 @@ from bson import json_util,ObjectId
 import os
 from battletest import battle as btl
 from dbjobs import dbjobsonerun
+from explore import random_number
 from functions.battletower import battleTower 
-from functions.dbfunct import evocheck, expcheck, feed_monster, fetch_player_monster, give_monster_to_player, remove_food_monster
+from functions.call_monster import call_monsters
+from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, give_monster_to_player
+from functions.items import add_item_to_player, remove_item_from_player
 
 
 
@@ -35,12 +39,14 @@ class Post():
 
     
 
+
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
 login_manager = LoginManager()
+
 
 @login_manager.unauthorized_handler
 def unauthenticated():
@@ -58,6 +64,9 @@ login_manager.init_app(app)
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
+@app.errorhandler(404)
+def error(error):
+    return 'sometimes server had died'
 
 @app.route('/')
 def index():
@@ -70,8 +79,9 @@ def index():
 def player():
     monster=fetch_player_monster(current_user.id)
     if monster != None:
-        evocheck(current_user.id)
+        # evocheck(current_user.id)
         monster=fetch_player_monster(current_user.id)
+        print(monster)
     backgroundUrl='/static/bg/1.jpeg'
     
     return render_template('playersummary.html' ,monster=monster ,backgroundUrl=backgroundUrl) 
@@ -92,32 +102,78 @@ def train():
         monster=fetch_player_monster(current_user.id)
         args=request.args
         train = args.get('training')
-        if monster['hunger'] >= 1 :
-            if train == '1':
-                remove_food_monster(current_user.id)
-                expcheck(current_user.id,5)
-                newtrain = monster['traning'] 
-                newtrain += 1
-                query = {"active": True, "poster_id": current_user.id} 
-                db.playerMonster.monsters.update_one(query,{'$set':{"traning":newtrain}})
-                return redirect(url_for('monster'))
-        else: 
-            flash('you cannot train you are too hungry')
-            return redirect(url_for('monster'))        
+        
+        expcheck(current_user.id,5)
+        newtrain = monster['traning'] 
+        newtrain += 1
+        query = {"active": True, "poster_id": current_user.id} 
+        db.playerMonster.monsters.update_one(query,{'$set':{"traning":newtrain}})
+        return redirect(url_for('monster'))
+    
     return render_template('/partials/traning.html')
 
-@app.route('/feed',methods=['POST','GET'])
-def feed():
+
+@app.route('/evolve')
+def evolve():
+    # print('evolve')
+    evo_mon(current_user.id)
+    return redirect(url_for('monster'))
+
+@app.route('/directory')
+def directory():
+    monsters = call_monsters()
+    return render_template('directory.html',monsters=monsters)
+
+@app.route('/explore')
+def explore():
+    
+    return render_template('explore.html')
+@app.route('/explore/monster',methods=["GET","POST"])
+def explore_monster():
+    ran = random_number()
+    print(ran)
+    val=random.randint(5,75)
+    monster = battleTower
+    print(monster[ran])
+    player = db.userProfiles.userProfiles.find_one({"_id":current_user.id})
     if request.method == 'POST':
-        monster=fetch_player_monster(current_user.id)
-        args=request.args
-        food = args.get('food')
-        if food == 'meat':
-            feed_monster(current_user.id)
-            flash(f'you ate the {food} nom nom')
-        
-        return redirect(url_for('monster'))
-    return render_template('partials/feed.html')
+            monster=fetch_player_monster(current_user.id)
+            args = request.args
+            stage= int(args['stage'])
+            prize = args['prize']
+            name = args['name']
+            hp = args['hp']
+            pow = args['power']
+            atk = args['atk']
+            xp =int(args['xp'])
+            opponent = {'name':name,'atk':atk,"hp":hp,"power":pow}
+            result=btl(monster,opponent,1)
+            if result['result'] == "win":
+                playerBank = int(player['money'])
+                playerBank += int(prize)
+                mwins = monster['wins'] 
+                mwins += 1
+                pwins = player['wins']
+                pwins += 1
+                if stage > player['battleTower']:
+                    db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{"battleTower":stage,'money':playerBank,"wins":pwins,}})
+                    db.playerMonster.monsters.update_one({'_id':monster['_id']},{'$set':{"wins":mwins}})
+                else: 
+                    db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'money':playerBank,"wins":pwins}})
+                    db.playerMonster.monsters.update_one({'_id':monster['_id']},{'$set':{"wins":mwins}})
+
+
+                expcheck(current_user.id,xp)
+                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent,loc=1)
+            else: 
+                losses = monster['losses'] 
+                losses += 1
+                db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'losses':losses}})
+                
+                return render_template('/partials/battleScreen.html',result=result,monster=monster,opponent=opponent)
+    response = Response(render_template('partials/mon.html', monster=monster[ran] ,val=val))
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return response
 
 @app.route('/battle',methods=["GET"])
 def battle():
@@ -139,7 +195,7 @@ def battle_tower():
             atk = args['atk']
             xp =int(args['xp'])
             opponent = {'name':name,'atk':atk,"hp":hp,"power":pow}
-            result=btl(monster,opponent)
+            result=btl(monster,opponent,0)
             if result['result'] == "win":
                 playerBank = int(player['money'])
                 playerBank += int(prize)
@@ -156,7 +212,7 @@ def battle_tower():
 
 
                 expcheck(current_user.id,xp)
-                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent)
+                return render_template('/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent,loc=0)
             else: 
                 losses = monster['losses'] 
                 losses += 1
@@ -175,6 +231,7 @@ def post_game():
     poster_id = current_user.id
     posted_date = datetime.datetime.now()
     newmonster = Post(game,poster_id,posted_date)
+    
     give_monster_to_player(newmonster)
     return redirect(url_for('index'))
 
@@ -193,7 +250,18 @@ def dbjobsadmin():
     status = dbjobsonerun()
     return status 
 
+@app.route('/item_test')
+@login_required
+def item_test():
+    print(current_user)
+    item=add_item_to_player(1,current_user.id)
+    return item
 
+@app.route('/item_test-remove')
+@login_required
+def item_remove():
+    item = remove_item_from_player(1, current_user.id)
+    return item
 @app.route('/register', methods=['GET','POST'])
 def register():
     if request.method == 'POST':
@@ -262,7 +330,8 @@ def api_register():
 @login_required
 def admin_screen():
     if current_user.roles == 'admin':
-        return render_template('adminscreen.html')
+        itemsarray = db.userProfiles.userItems.find_one({'player_id':current_user.id})
+        return render_template('adminscreen.html',items=itemsarray)
     else: return 'access denined'
 
 @app.route('/api/login',methods=['POST','GET'] )

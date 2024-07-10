@@ -8,3 +8,12 @@ static/MissingNo.png
 functions/dbfunct.py
 templates/email.html
 .gitignore
+__pycache__/app.cpython-311.pyc
+__pycache__/battletest.cpython-311.pyc
+__pycache__/dbjobs.cpython-311.pyc
+__pycache__/dbjobs.cpython-311.pyc
+__pycache__/explore.cpython-311.pyc
+functions/__pycache__/dbfunct.cpython-311.pyc
+functions/__pycache__/items.cpython-311.pyc
+__pycache__/battletest.cpython-311.pyc
+__pycache__/dbjobs.cpython-311.pyc
