@@ -50,7 +50,9 @@
 
   {% if monster.stage >= 3 %}
   <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-secondary">Battle</button>
+  <button type="button" hx-get="/explore" hx-target="body" class="btn btn-secondary">explore</button>
   {% endif %}
+
   <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
   <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
   <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
