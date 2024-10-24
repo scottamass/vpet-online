@@ -108,6 +108,7 @@
   "power": 15,
   "hp": 5,
   "atk": 1,
+  "evolve":[6],
   "evolvea": 6,
   "evolveb": 7,
   "evolvec": 8,
