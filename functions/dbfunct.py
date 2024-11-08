@@ -168,7 +168,14 @@ def update_stat(id,stat,ammount):
        stat_single += ammount
        db.playerMonster.monsters.update_one(query,{'$set':{stat:ammount}})   
        
-       
+def get_stage(id):
+       query = {"_id":id}
+       res = db.userProfiles.userProfiles.find_one(query)
+       if 'stage' not in res or res['stage'] is None:
+              db.userProfiles.userProfiles.update_one(query,{'$set':{'stage':0}})
+              res = db.userProfiles.userProfiles.find_one(query)
+       return res['stage']
+
 
 def expcheck(id,exp):
     query = {"active": True, "poster_id": id} 

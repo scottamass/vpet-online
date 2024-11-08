@@ -9,6 +9,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+          {{monId}}
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -17,7 +18,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button data-bs-dismiss="modal" hx-post="/explore/monster?hp={{monster.hp}}&power={{monster.power}}&atk={{monster.atk}}&name={{monster.enemy}}&stage={{monster.stage}}&prize={{monster.prize}}&xp={{monster.xp}}" hx-target="#monster" class="card" style="width:18rem;" type="button" class="btn btn-primary">Battle!</button>
+          <button data-bs-dismiss="modal" hx-post="/explore/monster/{{id}}?hp={{monster.hp}}&power={{monster.power}}&atk={{monster.atk}}&name={{monster.enemy}}&stage={{monster.stage}}&prize={{monster.prize}}&xp={{monster.xp}}" hx-target="#monster" class="card" style="width:18rem;" type="button" class="btn btn-primary">Battle!</button>
         </div>
       </div>
     </div>

@@ -13,7 +13,7 @@ from dbjobs import dbjobsonerun
 from explore import random_number
 from functions.battletower import battleTower 
 from functions.call_monster import call_monsters
-from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, give_monster_to_player
+from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, get_stage, give_monster_to_player
 from functions.items import add_item_to_player, remove_item_from_player
 
 
@@ -64,9 +64,9 @@ login_manager.init_app(app)
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
-@app.errorhandler(404)
-def error(error):
-    return 'sometimes server had died'
+# @app.errorhandler(404)
+# def error(error):
+#     return 'sometimes server had died'
 
 @app.route('/')
 def index():
@@ -124,23 +124,25 @@ def directory():
     monsters = call_monsters()
     return render_template('directory.html',monsters=monsters)
 
-@app.route('/explore')
+@app.route('/explore',methods=["GET","POST"])
 def explore():
+    print(get_stage(current_user.id))
+    
     val1=random_number()
     val2=random_number()
     val3=random_number()
     monsters = [val1,val2,val3]
-    stage = '1'
+    stage = get_stage(current_user.id)
     return render_template('explore.html',stage=stage,monster=monsters)
 
 
-@app.route('/explore/monster/<val>',methods=["GET","POST"])
-def explore_monster(val):
-    ran = int(val)
-    print(ran)
-    val=val
+@app.route('/explore/monster/<mon>',methods=["GET","POST"])
+def explore_monster(mon):
+    
+    monId = int(mon)
+    val=random.randint(5,75)
     monster = battleTower
-    print(monster[ran])
+    print(monster[monId])
     player = db.userProfiles.userProfiles.find_one({"_id":current_user.id})
     if request.method == 'POST':
             monster=fetch_player_monster(current_user.id)
@@ -177,7 +179,7 @@ def explore_monster(val):
                 db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'losses':losses}})
                 
                 return render_template('/partials/battleScreen.html',result=result,monster=monster,opponent=opponent)
-    response = Response(render_template('partials/mon.html', monster=monster[ran] ,val=val))
+    response = Response(render_template('partials/mon.html', monster=monster[monId], id=monId ,val=val))
     response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
     return response
 
