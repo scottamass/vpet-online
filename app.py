@@ -126,9 +126,9 @@ def directory():
 
 @app.route('/explore')
 def explore():
-    val1=random.randint(5,75)
-    val2=random.randint(5,75)
-    val3=random.randint(5,75)
+    val1=random_number()
+    val2=random_number()
+    val3=random_number()
     monsters = [val1,val2,val3]
     stage = '1'
     return render_template('explore.html',stage=stage,monster=monsters)
@@ -136,7 +136,7 @@ def explore():
 
 @app.route('/explore/monster/<val>',methods=["GET","POST"])
 def explore_monster(val):
-    ran = random_number()
+    ran = int(val)
     print(ran)
     val=val
     monster = battleTower

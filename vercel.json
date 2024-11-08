@@ -1,0 +1,10 @@
+
+{
+"builds": [
+    { "src": "app.py", "use": "@vercel/python" }
+  ],
+  "redirects": [
+    { "source": "/(.*)", "destination": "app.py" }
+  ]  
+
+}
