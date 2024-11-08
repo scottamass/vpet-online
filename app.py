@@ -126,13 +126,19 @@ def directory():
 
 @app.route('/explore')
 def explore():
-    
-    return render_template('explore.html')
-@app.route('/explore/monster',methods=["GET","POST"])
-def explore_monster():
+    val1=random.randint(5,75)
+    val2=random.randint(5,75)
+    val3=random.randint(5,75)
+    monsters = [val1,val2,val3]
+    stage = '1'
+    return render_template('explore.html',stage=stage,monster=monsters)
+
+
+@app.route('/explore/monster/<val>',methods=["GET","POST"])
+def explore_monster(val):
     ran = random_number()
     print(ran)
-    val=random.randint(5,75)
+    val=val
     monster = battleTower
     print(monster[ran])
     player = db.userProfiles.userProfiles.find_one({"_id":current_user.id})

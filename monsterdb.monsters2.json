@@ -93,7 +93,7 @@
   "power": 15,
   "hp": 5,
   "atk": 1,
- "evolve":[5],
+ "evolve":[5,13],
   "stage": 3,
   "seris": 1,
   "type": "Va"

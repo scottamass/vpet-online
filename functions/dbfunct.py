@@ -165,10 +165,9 @@ def update_stat(id,stat,ammount):
        query = {"active": True, "poster_id": id} 
        stats= db.playerMonster.monsters.find_one(query)
        stat_single=stats[stat]
-       print(stat_single)
        stat_single += ammount
        db.playerMonster.monsters.update_one(query,{'$set':{stat:ammount}})   
-       print('stat boost')
+       
        
 
 def expcheck(id,exp):

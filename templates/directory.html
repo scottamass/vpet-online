@@ -1,64 +1,152 @@
 {% extends "base.html" %}
 {% block content %}
 {% include "nav.html" %}
-{% for message in get_flashed_messages()%}
+{% for message in get_flashed_messages() %}
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
-    {{message}}
+    {{ message }}
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  {% endfor %}
-  <div class="container justify-center">
-
-      <div class="row pt-2">
-          {% for m in monsters %}
-         
-            <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4 relative">
-                    <img src="{{ url_for('static', filename='' ~ m.name ~ '.gif' ) }}" class="img-fluid monster-image  rounded-start" alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">{{m.name}}</h5>
-                      <p class="card-text"><span class="badge rounded-pill bg-secondary">ID:{{m.id}}</span><span class="badge rounded-pill bg-{{m.type}}">Type:{{m.type}}</span></p>
-                      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                    </div>
-                  </div>
+</div>
+{% endfor %}
+<div class="container justify-center">
+    <div class="row pt-2">
+        {% for m in monsters %}
+        <div class="card mb-3" style="max-width: 540px;" data-bs-toggle="modal" data-bs-target="#monsterModal"
+            data-name="{{ m.name }}" data-id="{{ m.id }}" data-type="{{ m.type }}"
+            data-bulk='{{ m | tojson | safe }}'
+            data-image="{{ url_for('static', filename='' ~ m.name ~ '.gif') }}">
+            <div class="row g-0">
+                <div class="col-md-4 relative">
+                    <img src="{{ url_for('static', filename='' ~ m.name ~ '.gif') }}" class="img-fluid monster-image rounded-start" alt="...">
                 </div>
-              </div>
-              {% endfor %}
-          <!-- {{monsters}} -->
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ m.name }}</h5>
+                        <p class="card-text">
+                            <span class="badge rounded-pill bg-secondary">ID: {{ m.id }}</span>
+                            <span class="badge rounded-pill bg-{{ m.type }}">Type: {{ m.type }}</span>
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="monsterModal" tabindex="-1" aria-labelledby="monsterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="monsterModalLabel">Monster Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" class="img-fluid" alt="Monster Image">
+                <h5 id="modalName" class="mt-2"></h5>
+                <p id="modalId"></p>
+                <p id="modalType"></p>
+                <p id="modalEvo"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
+</div>
 
-    <style>
-        .bg-vi{
-            background-color: blue;
+<!-- Style -->
+<style>
+    .bg-vi {
+        background-color: blue;
+    }
+
+    .bg-va {
+        background-color: rgb(34, 255, 0);
+    }
+
+    .bg-da {
+        background-color: yellow;
+        color: black;
+    }
+
+    .monster-image {
+        width: 100%;
+        image-rendering: pixelated;
+    }
+
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+</style>
+
+<!-- Script -->
+<script>
+    var monsterModal = document.getElementById('monsterModal');
+    var monsters = {{ monsters | tojson | safe }};  // Pass all monsters data as a JSON object
+
+    monsterModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var card = event.relatedTarget;
+
+        // Extract info from data attributes
+        var name = card.getAttribute('data-name');
+        var id = card.getAttribute('data-id');
+        var type = card.getAttribute('data-type');
+        var image = card.getAttribute('data-image');
+        var bulk = JSON.parse(card.getAttribute('data-bulk'));  // Parse JSON string to object
+
+        // Update the modal's content
+        var modalTitle = monsterModal.querySelector('.modal-title');
+        var modalImage = monsterModal.querySelector('#modalImage');
+        var modalName = monsterModal.querySelector('#modalName');
+        var modalId = monsterModal.querySelector('#modalId');
+        var modalType = monsterModal.querySelector('#modalType');
+        var modalEvo = monsterModal.querySelector('#modalEvo');
+
+        modalTitle.textContent = name + ' Details';
+        modalImage.src = image;
+        modalName.textContent = 'Name: ' + name;
+        modalId.textContent = 'ID: ' + id;
+        modalType.textContent = 'Type: ' + type;
+
+        // Clear previous evolution data
+        modalEvo.innerHTML = '';
+
+        // Check if there are evolutions
+        if (bulk.evolve && bulk.evolve.length > 0) {
+            modalEvo.innerHTML = '<strong>Evolves into:</strong><br>';
+
+            // Loop through each evolution ID and display the corresponding monster details
+            bulk.evolve.forEach(function (evolutionId) {
+                // Find the evolved monster based on the evolution ID
+                var evolvedMonster = monsters.find(monster => monster.id === evolutionId);
+
+                if (evolvedMonster) {
+                    // Construct the URL for the evolved monster's image
+                    let imageUrl = "/static/" + evolvedMonster.name + ".gif";
+
+                    // Append the evolved monster's image and details to the modal
+                    modalEvo.innerHTML += `
+                        <img src="${imageUrl}" class="img-fluid rounded" alt="${evolvedMonster.name}" style="max-width: 100px;">
+                        <p>Name: ${evolvedMonster.name}</p>
+                        <p>ID: ${evolvedMonster.id}</p>
+                        <hr>`;
+                }
+            });
+        } else {
+            modalEvo.textContent = 'No evolution data available.';
         }
-        .bg-va{
-            background-color: rgb(34, 255, 0);
-        }
-        .bg-da{
-            background-color: yellow;
-            color: black    ;
-        }
-        .monster-image {
-       
-            width: 100%;
-            image-rendering: pixelated;
-         
-        }
-        .image-container {
-            position: relative;
-            width: 100%;
-            height: 100%; /* Make sure the parent div has a defined height */
-        }
-        
-        .image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; /* Ensures the image covers the entire div */
-            object-position: center; /* Center the image within the div */
-        }
-    </style>
+    });
+</script>
 {% endblock %}
