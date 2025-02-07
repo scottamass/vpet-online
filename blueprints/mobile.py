@@ -20,16 +20,3 @@ def new_feature():
 
 
 
-# @new_feature_bp.route('/app/login/discord')
-# def login_discord():
-
-#     url_discord = os.getenv('APP_DISCORD_URL')
-#     print(url_discord)
-#     return redirect(url_discord)
-
-# @new_feature_bp.route('/app/login/discord/callback')
-# def login_discord_callback():
-#     print('----------v2------')
-#     code = request.args['code']
-#     discord_login(code)
-#     return redirect('/app/new-feature')

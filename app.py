@@ -1,6 +1,7 @@
 import json
 from blueprints.mobile import new_feature_bp
 from blueprints.auth_bp import auth_bp
+from blueprints.gameplay import gameplay_bp
 import datetime
 import random
 from flask import Flask, Response, flash, jsonify, redirect, request,session , render_template, url_for
@@ -74,6 +75,7 @@ def parse_json(data):
 #     return 'sometimes server had died'
 app.register_blueprint(new_feature_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(gameplay_bp)
 @app.route('/')
 def index():
  
