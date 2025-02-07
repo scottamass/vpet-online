@@ -18,9 +18,7 @@ new_feature_bp = Blueprint('new_feature', __name__, template_folder='templates')
 def new_feature():
     return render_template('/app/homeTest.html')  # Create this template in the templates folder
 
-@new_feature_bp.route('/app/login')
-def app_login():
-    return 'Yo'
+
 
 # @new_feature_bp.route('/app/login/discord')
 # def login_discord():
