@@ -1,0 +1,208 @@
+{% extends "app/appBase.html" %}
+{% block content %}
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-9 order-1 order-sm-1 order-md-1 order-lg-2">
+            <div id="monster" class="container mx-auto ">
+                {% if monster is not none %}
+         <div hx-get="/part/monster" hx-trigger="load">  </div>
+                {% else %}
+                <div class="px-4 py-5 my-5 text-center">
+                    <img class="d-block mx-auto mb-4" src="/static/digivice.png" alt="" width="72" height="57">
+                    <h1 class="display-5 fw-bold">Looks like you don't have a Digital Partner</h1>
+                    <div class="col-lg-6 mx-auto">
+                        <p class="lead mb-4">Click the button below to being </p>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Get your V-pet
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            start a new game 
+          </button> -->
+
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid !direction !spacing mt-5">
+
+    <!-- Button trigger modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/api/createmonster" method="POST">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <div class="container">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Choose a Monster</h5>
+                                        <div class="row d-flex flex-row">
+                                            <!-- egg selector-->
+                                            
+                                                <div class="card text-center" style="width:10rem;">
+                                                    <img src="{{ url_for('static', filename='eggs/digitama_c1.gif' )}}"
+                                                        class="card-img-top" alt="Pokemon Crystal">
+                                                    <div class="card-body">
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" value=1 id=1 name="options"
+                                                                class="custom-control-input">
+                                                            <label class="custom-control-label" for=1>bottomon</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                            <div class="card text-center" style="width:10rem;" >
+                                                <img src="{{ url_for('static', filename='eggs/digitama_be_dwy.gif' )}}"
+                                                    class="card-img-top" alt="Pokemon Crystal">
+                                                <div class="card-body">
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" value=14 id=1 name="options"
+                                                            class="custom-control-input">
+                                                        <label class="custom-control-label" for=1>tsubumon</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="subimt" class="btn btn-primary">Submit</button>
+
+
+                            </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showAlert(feature) {
+        alert(`"${feature}" feature is coming soon.`);
+    }
+</script>
+<style>
+    .custom-control-input:checked~.custom-control-label::before {
+        border: 2px solid blue;
+    }
+
+    .bga {
+        position: relative;
+        background-repeat: no-repeat;
+        background-position: center;
+
+    }
+
+    .relative {
+        position: relative;
+        height: 250px;
+        width: 250px;
+    }
+
+    section {
+
+        image-rendering: pixelated;
+    }
+
+    .monster-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .frame2 {
+        animation: frame-animation 1s infinite;
+        position: absolute;
+        margin-top: 0 !important;
+        box-shadow: none !important;
+    }
+
+    @keyframes frame-animation {
+        0% {
+            opacity: 0;
+        }
+
+        49.99% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .frame1 {
+        animation: frame1-animation 1s infinite;
+        position: absolute;
+        margin-top: 0 !important;
+        box-shadow: none !important;
+    }
+
+    @keyframes frame1-animation {
+        0% {
+            opacity: 1;
+        }
+
+        49.99% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+    .inner {
+        background-color: #75C977;
+        margin-top: 5px;
+        border-radius: 10px;
+        border: 1px solid #ce991e;
+        padding: 4px;
+    }
+
+    .Rinner {
+        background-color: #767676;
+        margin-top: 5px;
+        border-radius: 10px;
+        border: 1px solid #ce991e;
+        padding: 4px;
+    }
+</style>
+{% endblock %}

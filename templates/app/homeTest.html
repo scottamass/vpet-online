@@ -1,0 +1,60 @@
+{% extends "app/appBase.html" %}
+{% block content %}
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+{% if current_user.is_authenticated %}
+<div class="container d-flex flex-column vh-100">
+  <div class="row flex-grow-1">
+    <div class="col d-flex justify-content-center align-items-center">
+      <div id="game_window">
+
+        Game Screen
+      </div>
+    </div>
+  </div>
+
+  <div class="row fixed-bottom bg-black" style="height: 50px;">
+    <div class="col d-flex justify-content-center align-items-center text-white">
+      Bottom Bar
+    </div>
+  </div>
+</div>
+
+{%else %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+<main class="form-signin ">
+  <div class="card mx-auto " style="width:20rem;">
+   
+    
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    
+    <a href="/app/login/discord" class="w-100 btn btn-lg btn-primary" style="background-color: blueviolet;">Log in with Discord</a>
+    <hr class="divider">
+    <form>
+      
+      
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      
+      <div class="checkbox mb-3">
+    
+      </div>
+      <button class="w-100 btn btn-lg btn-disabled" type="submit">Sign in</button>
+      
+    </form>
+  </div>
+</main>
+</div>
+{% endif %}
+
+{% endblock %}
