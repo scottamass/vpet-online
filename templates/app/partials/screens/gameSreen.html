@@ -1,8 +1,8 @@
-<h2>My Monster</h2>
-<section id="mon" class=" container bga" style="background-image: url('static/bg/1.jpeg');">
+<section id="mon" class="  bga" style="background-image: url('../../../../static/bg/1.jpeg');">
   {% for message in get_flashed_messages()%}
   <div class="alert alert-success alert-dismissible fade show" id="alert" role="alert">
     {{message}}
+  
     <button type="button" id="btn" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     <script>
       const butttonClose = document.getElementById('btn'),
@@ -19,54 +19,174 @@
       })
     </script>
   </div>
-
   {% endfor %}
+  <div class="row ${1| ,row-cols-2,row-cols-3, auto,justify-content-md-center,|}">
+    
+  </div>
   <div class="relative mx-auto">
     <img class="monster-image frame1" src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}"
-      alt="Monster Image">
+      alt="Monster Image" >
     <img class="monster-image frame2" src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
       alt="Frame 2 Image">
   </div>
 </section>
-<section>
-  <div class="container Rinner row">
-    <div class="col col-sm-12 col-md-6">
-      <p><span>name:</span> {{monster.name}}</p>
-      <p><span>stage:</span> {{monster.stage}}</p>
-      <p><span>Level:</span>{{monster.level}}</p>
-      <p><span>Exp:</span>{{monster.exp}}</p>
-    </div>
-    <div class="col col-sm-12 col-md-6">
-      <p><span>HP:</span> {{monster.hp+monster.basehp}}</p>
-      <p><span>Atk:</span>{{monster.atk+monster.baseatk}}</p>
-      <p><span>Power:</span>{{monster.basepower+monster.power}}</p>
-    </div>
-  </div>
-</section>
-<section class="buttons d-flex" style="flex-wrap: wrap;">
+
+<!-- <section class="buttons d-flex" style="flex-wrap: wrap;">
 
 
-  <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary">Train</button>
-
-  {% if monster.stage >= 3 %}
-  <button type="button" hx-get="/battle" hx-target="#monster" class="btn btn-secondary">Battle</button>
-  <button type="button" hx-get="/explore" hx-target="body" class="btn btn-secondary">explore</button>
-  {% endif %}
-
-  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
-  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
-  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
-</section>
+  <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary">Train</button> 
+ 
+</section> -->
 <section class="buttons d-flex" style="flex-wrap: wrap;">
 
   {% if monster.evo == True %}
   <button type="button" hx-get="/evolve" hx-target="#monster" class="btn btn-danger">Evolve</button>
   {% endif %}
 
-  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Quest')">Quest</button> -->
-  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('Explore')">Explore</button> -->
-  <!-- <button type="button" class="btn btn-secondary" onclick="showAlert('PVP')">PVP</button> -->
+  
 </section>
+<style>
+
+  .row.flex-grow-1 {
+    height: 100%;
+}
+
+.col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+#game_window {
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mon {
+    width: 100vw;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.relative {
+    width: 100%;
+    height: 100%;
+    max-width: 500px; /* Adjust max width as needed */
+    max-height: 500px; /* Adjust max height as needed */
+}
+
+.monster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+  .custom-control-input:checked~.custom-control-label::before {
+      border: 2px solid blue;
+  }
+
+  .bga {
+      position: relative;
+      background-repeat: no-repeat;
+      background-position: center;
+
+  }
+
+  .relative {
+      position: relative;
+      height: 250px;
+      width: 250px;
+  }
+
+  section {
+
+      image-rendering: pixelated;
+  }
+
+  .monster-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+  }
+
+  .frame2 {
+      animation: frame-animation 1s infinite;
+      position: absolute;
+      margin-top: 0 !important;
+      box-shadow: none !important;
+  }
+
+  @keyframes frame-animation {
+      0% {
+          opacity: 0;
+      }
+
+      49.99% {
+          opacity: 0;
+      }
+
+      50% {
+          opacity: 1;
+      }
+
+      100% {
+          opacity: 1;
+      }
+  }
+
+  .frame1 {
+      animation: frame1-animation 1s infinite;
+      position: absolute;
+      margin-top: 0 !important;
+      box-shadow: none !important;
+  }
+
+  @keyframes frame1-animation {
+      0% {
+          opacity: 1;
+      }
+
+      49.99% {
+          opacity: 1;
+      }
+
+      50% {
+          opacity: 0;
+      }
+
+      100% {
+          opacity: 0;
+      }
+  }
+
+  .inner {
+      background-color: #75C977;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: 1px solid #ce991e;
+      padding: 4px;
+  }
+
+  .Rinner {
+      background-color: #767676;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: 1px solid #ce991e;
+      padding: 4px;
+  }
+</style>
 <!-- <script>
 // Add an event listener for when the document is ready
 

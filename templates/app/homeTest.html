@@ -12,14 +12,16 @@
     <div class="col d-flex justify-content-center align-items-center">
       <div id="game_window">
 
-        Game Screen
+        <div hx-get="/app/monster" hx-trigger="load">  </div>
+
       </div>
     </div>
   </div>
 
   <div class="row fixed-bottom bg-black" style="height: 50px;">
     <div class="col d-flex justify-content-center align-items-center text-white">
-      Bottom Bar
+      <span hx-get="/app/monster" hx-trigger="click" hx-target="#game_window"><i class="fa fa-home" aria-hidden="true"></i></span>
+      <span hx-get="/app/shop" hx-trigger="click" hx-target="#game_window"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
     </div>
   </div>
 </div>
