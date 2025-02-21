@@ -153,11 +153,11 @@ def evo_mon(id):
        if player_monster['evo'] == True:
               print('time for evo ')  
               monster=call_monster(player_monster['monster_id'])
-              # print(monster)
+              print(monster)
               if monster['stage'] ==3:      
                      monster=call_monster(monster['id'])
                      monsternew= call_monster(monster['evolve'][0])
-                     # print(monsternew)
+                     print(monsternew)
                      db.playerMonster.monsters.update_one(query,{'$set':{"monster_id":monsternew['id'],'evo':False, 'prev_evo':player_monster['monster_id']}})     
 
 

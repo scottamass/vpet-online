@@ -1,52 +1,138 @@
 <section id="mon" class="  bga" style="background-image: url('../../../../static/bg/1.jpeg');">
-  {% for message in get_flashed_messages()%}
-  <div class="alert alert-success alert-dismissible fade show" id="alert" role="alert">
-    {{message}}
-  
-    <button type="button" id="btn" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    <script>
-      const butttonClose = document.getElementById('btn'),
-        alert = document.getElementById('alert');
-
-      butttonClose.addEventListener('click', () => {
-
-        alert.classList.remove('d-none');
-
-        setTimeout(() => {
-          alert.classList.add('d-none');
-        }, 2000)
-
-      })
-    </script>
-  </div>
-  {% endfor %}
-  <div class="row ${1| ,row-cols-2,row-cols-3, auto,justify-content-md-center,|}">
+    {% for message in get_flashed_messages()%}
+    <div class="alert alert-success alert-dismissible fade show" id="alert" role="alert">
+        {{message}}
+        
+        <button type="button" id="btn" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <script>
+            const butttonClose = document.getElementById('btn'),
+            alert = document.getElementById('alert');
+            
+            butttonClose.addEventListener('click', () => {
+                
+                alert.classList.remove('d-none');
+                
+                setTimeout(() => {
+                    alert.classList.add('d-none');
+                }, 2000)
+                
+            })
+        </script>
+    </div>
+    {% endfor %}
+    {% if monster is not none %}
+   
     
-  </div>
-  <div class="relative mx-auto">
-    <img class="monster-image frame1" src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}"
-      alt="Monster Image" >
-    <img class="monster-image frame2" src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
-      alt="Frame 2 Image">
-  </div>
+    <div class="row ">
+        
+        <h1 class="pt-2" style="background-color: grey; height: 10vh; line-height: 30px;">{{monster.name}}</h1>
+        
+      <div class="relative mx-auto">
+          <img class="monster-image frame1" src="{{ url_for('static', filename='' ~ monster.name ~ '.gif' ) }}"
+          alt="Monster Image" >
+          <img class="monster-image frame2" src="{{ url_for('static', filename='frame2/' ~ monster.name ~ '.gif' ) }}"
+          alt="Frame 2 Image">
+        </div>
+        <div class="button-container d-flex justify-content-center">
+            <button hx-get="/app/battle" hx-target="#base_window" class="btn btn-danger custom-button">Battle</button>
+            {% if monster.evo == True %}
+            <button hx-get="/app/evolve" hx-target="#game_window" class="btn btn-primary custom-button">Evolve</button>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4" src="/static/digivice.png" alt="" width="72" height="57">
+        <h1 class="display-5 fw-bold">Looks like you don't have a Digital Partner</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Click the button below to being </p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    Get your V-pet
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form hx-post="/app/api/createmonster" hx-target="body">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <div class="container">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Choose a Monster</h5>
+                                            <div class="row d-flex flex-row">
+                                                <!-- egg selector-->
+                                                
+                                                    <div class="card text-center" style="width:10rem;">
+                                                        <img src="{{ url_for('static', filename='eggs/digitama_c1.gif' )}}"
+                                                            class="card-img-top" alt="Pokemon Crystal">
+                                                        <div class="card-body">
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" value=1 id=1 name="options"
+                                                                    class="custom-control-input">
+                                                                <label class="custom-control-label" for=1>bottomon</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                
+                                                <div class="card text-center" style="width:10rem;" >
+                                                    <img src="{{ url_for('static', filename='eggs/digitama_be_dwy.gif' )}}"
+                                                        class="card-img-top" alt="Pokemon Crystal">
+                                                    <div class="card-body">
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" value=14 id=1 name="options"
+                                                                class="custom-control-input">
+                                                            <label class="custom-control-label" for=1>tsubumon</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                                <!---->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+    
+    
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+    
+    
+                                </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 </section>
 
 <!-- <section class="buttons d-flex" style="flex-wrap: wrap;">
-
-
-  <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary">Train</button> 
- 
+    
+    
+    <button hx-get="/train" hx-target="#mon" type="button" class="btn btn-secondary">Train</button> 
+    
 </section> -->
-<section class="buttons d-flex" style="flex-wrap: wrap;">
 
-  {% if monster.evo == True %}
-  <button type="button" hx-get="/evolve" hx-target="#monster" class="btn btn-danger">Evolve</button>
-  {% endif %}
 
-  
+
+
+
 </section>
 <style>
-
+    
   .row.flex-grow-1 {
     height: 100%;
 }
@@ -74,7 +160,7 @@
     background-position: center;
     display: flex;
     justify-content: center;
-    align-items: center;
+    text-align: center;
 }
 
 .relative {
@@ -185,6 +271,11 @@
       border-radius: 10px;
       border: 1px solid #ce991e;
       padding: 4px;
+  }
+
+  .custom-button {
+      height: 30px;
+      font-size: 14px; /* Adjust font size as needed */
   }
 </style>
 <!-- <script>

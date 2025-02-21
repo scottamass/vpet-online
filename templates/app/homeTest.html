@@ -7,8 +7,8 @@
   </div>
 {% endfor %}
 {% if current_user.is_authenticated %}
-<div class="container d-flex flex-column vh-100">
-  <div class="row flex-grow-1">
+<div class="container d-flex flex-column vh-100"id="base_window">
+  <div class="row flex-grow-1" >
     <div class="col d-flex justify-content-center align-items-center">
       <div id="game_window">
 
@@ -22,11 +22,10 @@
     <div class="d-flex justify-content-around align-items-center">
         <span class="position-relative nav-icon" id="monster-icon">
             <i class="fa fa-dragon text-info" style="font-size: 24px;" 
-               hx-get="/app/monster" 
+               hx-get="/app/monsters" 
                hx-trigger="click" 
                hx-target="#game_window"
                onclick="setActivePage('monster')"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
         </span>
         
         <!-- <span class="position-relative" id="eggs-icon">
@@ -52,7 +51,7 @@
                hx-trigger="click" 
                hx-target="#game_window"
                onclick="setActivePage('shop')"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
+            <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span> -->
         </span>
 
         <!-- <span class="position-relative" id="inventory-icon">

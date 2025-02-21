@@ -247,7 +247,7 @@ def post_game():
     poster_id = current_user.id
     posted_date = datetime.datetime.now()
     newmonster = Post(game,poster_id,posted_date)
-    
+    print(newmonster)
     give_monster_to_player(newmonster)
     return redirect(url_for('index'))
 
