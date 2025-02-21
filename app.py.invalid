@@ -1,7 +1,4 @@
 import json
-from blueprints.mobile import new_feature_bp
-from blueprints.auth_bp import auth_bp
-from blueprints.gameplay import gameplay_bp
 import datetime
 import random
 from flask import Flask, Response, flash, jsonify, redirect, request,session , render_template, url_for
@@ -53,9 +50,6 @@ login_manager = LoginManager()
 
 @login_manager.unauthorized_handler
 def unauthenticated():
-        if request.path.startswith('/app/'):
-        # Redirect to a different login page for /app/ routes
-            return redirect(url_for('new_feature.app_login'))
         
         return redirect(url_for('login'))
 
@@ -73,9 +67,7 @@ def parse_json(data):
 # @app.errorhandler(404)
 # def error(error):
 #     return 'sometimes server had died'
-app.register_blueprint(new_feature_bp)
-app.register_blueprint(auth_bp)
-app.register_blueprint(gameplay_bp)
+
 @app.route('/')
 def index():
  
@@ -247,7 +239,7 @@ def post_game():
     poster_id = current_user.id
     posted_date = datetime.datetime.now()
     newmonster = Post(game,poster_id,posted_date)
-    print(newmonster)
+    
     give_monster_to_player(newmonster)
     return redirect(url_for('index'))
 

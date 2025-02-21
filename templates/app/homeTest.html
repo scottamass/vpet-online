@@ -1,0 +1,147 @@
+{% extends "app/appBase.html" %}
+{% block content %}
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+{% if current_user.is_authenticated %}
+<div class="container d-flex flex-column vh-100"id="base_window">
+  <div class="row flex-grow-1" >
+    <div class="col d-flex justify-content-center align-items-center">
+      <div id="game_window">
+
+        <div hx-get="/app/monster" hx-trigger="load">  </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed-bottom bg-dark p-2" style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
+    <div class="d-flex justify-content-around align-items-center">
+        <span class="position-relative nav-icon" id="monster-icon">
+            <i class="fa fa-dragon text-info" style="font-size: 24px;" 
+               hx-get="/app/monsters" 
+               hx-trigger="click" 
+               hx-target="#game_window"
+               onclick="setActivePage('monster')"></i>
+        </span>
+        
+        <!-- <span class="position-relative" id="eggs-icon">
+            <i class="fa fa-egg text-info" style="font-size: 24px;" 
+               hx-get="/app/eggs" 
+               hx-trigger="click" 
+               hx-target="#game_window"
+               onclick="setActivePage('eggs')"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
+        </span> -->
+
+        <span class="position-relative" id="home-icon">
+            <i class="fa fa-home text-info" style="font-size: 24px;" 
+               hx-get="/app/monster" 
+               hx-trigger="click" 
+               hx-target="#game_window"
+               onclick="setActivePage('home')"></i>
+        </span>
+
+        <span class="position-relative" id="shop-icon">
+            <i class="fa fa-store text-info" style="font-size: 24px;" 
+               hx-get="/app/shop" 
+               hx-trigger="click" 
+               hx-target="#game_window"
+               onclick="setActivePage('shop')"></i>
+            <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span> -->
+        </span>
+
+        <!-- <span class="position-relative" id="inventory-icon">
+            <i class="fa fa-backpack text-info" style="font-size: 24px;" 
+               hx-get="/app/inventory" 
+               hx-trigger="click" 
+               hx-target="#game_window"
+               onclick="setActivePage('inventory')"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span>
+        </span> -->
+    </div>
+  </div>
+</div>
+
+<style>
+.position-relative {
+    transition: all 0.2s ease;
+    padding: 12px;
+    border-radius: 50%;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rounded-circle.bg-secondary.p-3 {
+    background-color: #1d1c1c65 !important;
+    position: relative;
+    top: -20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transform: scale(1.50);
+    border-style: solid;
+    border-color: red;
+    padding: 16px !important;
+}
+
+.rounded-circle.bg-secondary.p-3 i {
+    transform: scale(1.25);
+}
+</style>
+
+<script>
+function setActivePage(page) {
+    // Remove active class from all icons
+    document.querySelectorAll('.position-relative').forEach(el => {
+        el.classList.remove('rounded-circle', 'bg-secondary', 'p-3');
+    });
+    
+    // Add active class to clicked icon
+    document.querySelector(`#${page}-icon`).classList.add('rounded-circle', 'bg-secondary', 'p-3');
+}
+
+// Set initial active page (assuming home is default)
+document.addEventListener('DOMContentLoaded', function() {
+    setActivePage('home');
+});
+</script>
+
+{%else %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+<main class="form-signin ">
+  <div class="card mx-auto " style="width:20rem;">
+   
+    
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    
+    <a href="/app/login/discord" class="w-100 btn btn-lg btn-primary" style="background-color: blueviolet;">Log in with Discord</a>
+    <hr class="divider">
+    <form>
+      
+      
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      
+      <div class="checkbox mb-3">
+    
+      </div>
+      <button class="w-100 btn btn-lg btn-disabled" type="submit">Sign in</button>
+      
+    </form>
+  </div>
+</main>
+</div>
+{% endif %}
+
+{% endblock %}

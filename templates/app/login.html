@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block content %}
+{% for message in get_flashed_messages()%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{% endfor %}
+<div class="base">
+    <div class="container">
+        <div class="row">
+    <!-- left padding -->
+    <div class="col-lg-3 col-md-2"></div>
+            <div class="box col-lg-6 col-md-8">
+                <H1>Vpet-Online</H1>
+                
+                <form action="/app/login" method="post">
+                    <input type="text" class="form-control" placeholder="username" name="username" required>
+                    <input type="password" class="form-control password" placeholder="password"  name="pwd" required i>
+                    <button class="btn btn-outline-light" type="submit">login</button>
+                    
+                    
+                </form>
+                <a href="/app/login/discord" class="btn btn-outline-discord" >Log in with Discord</a>
+                <form>
+                <label>Not got an Account ? </label><br>
+                <a href="/register" class="btn btn-outline-success" >sign-up</a>
+                </form>
+            </div>
+                <!-- right padding -->
+    <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+</div>
+<style>
+    *{margin: 0;
+    padding: 0;
+}
+
+label{color: rgb(150, 150, 150);}
+h1{text-align: center;
+color: rgb(150, 150, 150);}
+    .base{background-color: rgb(150, 150, 150);
+    height: 100vh;}
+
+    .box {background-color: #1a2226;
+    margin-top: 5rem;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),0 3px 6px rgba(0, 0, 0, 0.23);
+padding: 1em;}
+
+    
+    input[type=text]{ 
+        background-color: #d1d2d2;
+        border: none;
+        border-bottom: 2px solid #1188c4d8;
+        border-top: 0px;
+        border-radius: 0px;
+        outline: 0; color: #323232;}
+    input[type=password]{ 
+            background-color: #d1d2d2;
+            border: none;
+            border-bottom: 2px solid #1188c4d8;
+            border-top: 0px;
+            border-radius: 0px;
+            outline: 0;color: #1a1a1a;}
+            .password 
+            {margin-top: 1em;
+            margin-bottom: 1em;}
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0;
+    }
+
+    input:-webkit-autofill{
+        background-color: #1a2226;
+    }
+    .form-control:focus{
+        border-color: inherit;
+        box-shadow: none;
+        outline: 0;
+   
+    }        
+     
+    .btn-outline-discord {
+        --bs-btn-color: #d9d5de;
+        --bs-btn-border-color: #6b09ec;
+        --bs-btn-hover-color: #fff;
+        --bs-btn-hover-bg: #491987;
+        --bs-btn-hover-border-color: #491987;
+        --bs-btn-focus-shadow-rgb: 25,135,84;
+        --bs-btn-active-color: #fff;
+        --bs-btn-active-bg: #491987;
+        --bs-btn-active-border-color: #491987;
+        --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+        --bs-btn-disabled-color: #491987;
+        --bs-btn-disabled-bg: transparent;
+        --bs-btn-disabled-border-color: #491987;
+        --bs-gradient: none;
+    }
+</style>
+{% endblock %}
