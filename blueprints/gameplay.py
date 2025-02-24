@@ -1,9 +1,10 @@
 import datetime
 from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
-
-
-from functions.dbfunct import evo_mon, evocheck, fetch_player_monster, give_monster_to_player
+from battletest import battle as btl
+from blueprints.logic.app_funcrions import process_win
+from functions.battletower import battleTower 
+from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, give_monster_to_player, db
 class Post():
     def __init__(self,monsterid,poster_id, posted_date):
         self.game = monsterid 
@@ -54,3 +55,36 @@ def post_game():
     
     give_monster_to_player(newmonster)
     return redirect('/app/new-feature')
+
+
+
+@gameplay_bp.route('/app/battle/battletower',methods=["GET","POST"])
+def battle_tower():
+    fetch_player_monster(current_user.id)
+    bt = battleTower
+    print(bt)
+    player = db.userProfiles.userProfiles.find_one({"_id":current_user.id})
+    if request.method == 'POST':
+            monster=fetch_player_monster(current_user.id)
+            user_id=current_user.id
+            args = request.args
+            stage= int(args['stage'])
+            prize = args['prize']
+            name = args['name']
+            hp = args['hp']
+            pow = args['power']
+            atk = args['atk']
+            xp =int(args['xp'])
+            opponent = {'name':name,'atk':atk,"hp":hp,"power":pow}
+            result=btl(monster,opponent,0)
+            if result['result'] == "win":
+                process_win(player,prize,stage,monster,user_id)
+                expcheck(current_user.id,xp)
+                return render_template('/app/partials/battleScreen.html',result=result ,monster=monster,opponent=opponent,loc=0)
+            else: 
+                losses = monster['losses'] 
+                losses += 1
+                db.userProfiles.userProfiles.update_one({"_id":current_user.id},{'$set':{'losses':losses}})
+                
+                return render_template('/app/partials/battleScreen.html',result=result,monster=monster,opponent=opponent)
+    return render_template('/app/partials/battletower.html', bt=bt, player=player)
