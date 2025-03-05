@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from battletest import battle as btl
 from blueprints.logic.app_funcrions import process_win
 from functions.battletower import battleTower 
-from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_player_monster, give_monster_to_player, db
+from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_all_player_monster, fetch_player_monster, give_monster_to_player, db
 class Post():
     def __init__(self,monsterid,poster_id, posted_date):
         self.game = monsterid 
@@ -30,7 +30,10 @@ def shop():
 
 @gameplay_bp.route('/app/monsters')
 def monsters():
-    return render_template('app/partials/screens/monsters.html')
+    monsters = fetch_all_player_monster(current_user.id)
+    print(monsters)
+    return render_template('app/partials/screens/monsters.html',monsters=monsters)
+    # return render_template('directory.html',monsters=monsters)
     #return 'TEST'
 
 @gameplay_bp.route('/app/evolve')

@@ -1,11 +1,22 @@
-<div class=" " style="background-color: #ffeb3b; margin: -24px -48px; padding: 0; position: relative; width: 100vw; height: 100%; overflow: hidden;">
+<div class=" " style="background-color: #3badff; margin: -24px -48px; padding: 0; position: relative; width: 100vw; height: 100%; overflow: hidden;">
     <div class="p-5">
         <h2>Monster</h2>
         <div class="row">
             <!-- Add shop items here -->
-            <div class="col-12">
-                <p>Shop content coming soon!</p>
-            </div>
+           
+                {%for m in monsters%}
+                
+                <div class="card" style="width:18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{m['name']}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted ">L:{{m['level']}}</h6>
+                        <!-- <p class="card-text">{{m}}</p> -->
+                        
+                    </div>
+                    <img src="{{ url_for('static', filename='' ~ m.name ~ '.gif') }}" class="card-img-top" alt="...">
+                </div>
+                {% endfor %}
+            
         </div>
     </div>
 </div> 
