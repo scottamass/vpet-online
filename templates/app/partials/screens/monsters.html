@@ -1,31 +1,122 @@
-<div class=" " style="background-color: #3badff; margin: -24px -48px; padding: 0; position: relative; width: 100vw; height: 100%; overflow: hidden;">
-    <div class="p-5">
-        <h2>Monster</h2>
-        <div class="row">
-            <!-- Add shop items here -->
-           
-                {%for m in monsters%}
-                
-                <div class="card" style="width:18rem;">
+
+<div class="container justify-center">
+    <div class="row pt-2">
+ 
+        {% for m in monsters %}
+        <div class="card mb-3" style="max-width: 540px;" data-bs-toggle="modal" data-bs-target="#monsterModal"
+            data-name="{{ m.name }}" data-id="{{ m.monster_id }}" data-type="{{ m.type }}"
+            data-bulk='{{ m | tojson | safe }}'
+            data-image="{{ url_for('static', filename='' ~ m.name ~ '.gif') }}">
+            <div class="row g-0">
+                <div class="col-md-4 relative">
+                    <img src="{{ url_for('static', filename='' ~ m.name ~ '.gif') }}" class="img-fluid monster-image rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">{{m['name']}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted ">L:{{m['level']}}</h6>
-                        <!-- <p class="card-text">{{m}}</p> -->
+                        <h5 class="card-title">{{ m.name }}</h5>
+                        <p class="card-text">
+                            <span class="badge rounded-pill bg-secondary">LVL: {{ m.level }}</span>
+                            <span class="badge rounded-pill bg-{{ m.type }}">Type: {{ m.type }}</span>
+                        </p>
                         
                     </div>
-                    <img src="{{ url_for('static', filename='' ~ m.name ~ '.gif') }}" class="card-img-top" alt="...">
                 </div>
-                {% endfor %}
-            
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="monsterModal" tabindex="-1" aria-labelledby="monsterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="monsterModalLabel">Monster Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" class="img-fluid" alt="Monster Image">
+                <h5 id="modalName" class="mt-2"></h5>
+                <p id="modalId"></p>
+                <p id="modalType"></p>
+                <p id="modalEvo"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
-</div> 
+</div>
 
+<!-- Style -->
 <style>
-    #game_window {
-    width: 100vw;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}</style>
+    .bg-vi {
+        background-color: blue;
+    }
+
+    .bg-va {
+        background-color: rgb(34, 255, 0);
+    }
+
+    .bg-da {
+        background-color: yellow;
+        color: black;
+    }
+
+    .monster-image {
+        width: 100%;
+        image-rendering: pixelated;
+    }
+
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+</style>
+
+<!-- Script -->
+<script>
+    var monsterModal = document.getElementById('monsterModal');
+    var monsters = {{ monsters | tojson | safe }};  // Pass all monsters data as a JSON object
+
+    monsterModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var card = event.relatedTarget;
+
+        // Extract info from data attributes
+        var name = card.getAttribute('data-name');
+        var id = card.getAttribute('data-id');
+        var type = card.getAttribute('data-type');
+        var image = card.getAttribute('data-image');
+        var bulk = JSON.parse(card.getAttribute('data-bulk'));  // Parse JSON string to object
+        console.log(bulk)
+
+        // Update the modal's content
+        var modalTitle = monsterModal.querySelector('.modal-title');
+        var modalImage = monsterModal.querySelector('#modalImage');
+        var modalName = monsterModal.querySelector('#modalName');
+        var modalId = monsterModal.querySelector('#modalId');
+        var modalType = monsterModal.querySelector('#modalType');
+        var modalEvo = monsterModal.querySelector('#modalEvo');
+
+        modalTitle.textContent = name + ' Details';
+        modalImage.src = image;
+        modalName.textContent = 'Name: ' + name;
+        modalId.textContent = 'ID: ' + id;
+        modalType.textContent = 'Type: ' + type;
+        modalEvo.textContent = 'Type: ' + bulk.baseatk;
+
+        // Clear previous evolution data
+       
+    });
+</script>
+
