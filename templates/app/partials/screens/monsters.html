@@ -1,7 +1,7 @@
 
 <div class="container justify-center">
     <div class="row pt-2">
- 
+
         {% for m in monsters %}
         <div class="card mb-3" style="max-width: 540px;" data-bs-toggle="modal" data-bs-target="#monsterModal"
             data-name="{{ m.name }}" data-id="{{ m.monster_id }}" data-type="{{ m.type }}"
@@ -13,7 +13,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">{{ m.name }}</h5>
+                        <h5 class="card-title">{{ m.name }} {% if m.active%}<span class="badge rounded-pill bg-success">Active</span>{% endif%}</h5>
                         <p class="card-text">
                             <span class="badge rounded-pill bg-secondary">LVL: {{ m.level }}</span>
                             <span class="badge rounded-pill bg-{{ m.type }}">Type: {{ m.type }}</span>
@@ -43,6 +43,7 @@
                 <p id="modalEvo"></p>
             </div>
             <div class="modal-footer">
+             
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>

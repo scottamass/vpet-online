@@ -63,8 +63,9 @@ def post_game():
     give_monster_to_player(newmonster)
     return redirect('/app/new-feature')
 
-
-
+@gameplay_bp.route('/app/utils/switch',methods=["POST"])
+def switch_monster():
+    pass
 @gameplay_bp.route('/app/battle/battletower',methods=["GET","POST"])
 def battle_tower():
     fetch_player_monster(current_user.id)
