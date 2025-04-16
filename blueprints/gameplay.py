@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from battletest import battle as btl
 from blueprints.logic.app_funcrions import process_win
 from functions.battletower import battleTower 
-from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_all_player_monster, fetch_player_monster, give_monster_to_player, db
+from functions.dbfunct import evo_mon, evocheck, expcheck, fetch_all_player_monster, fetch_player_monster, give_monster_to_player, db, switch_to_active
 from bson import json_util
 import json
 
@@ -65,7 +65,14 @@ def post_game():
 
 @gameplay_bp.route('/app/utils/switch',methods=["POST"])
 def switch_monster():
-    pass
+    id=request.form.get('monster_id')
+ 
+    _id_obj = json.loads(id)
+    object_id = _id_obj.get("$oid")
+    print("Object ID:", object_id)
+
+    switch_to_active(object_id,current_user.id)
+    return redirect('/app/new-feature')
 @gameplay_bp.route('/app/battle/battletower',methods=["GET","POST"])
 def battle_tower():
     fetch_player_monster(current_user.id)

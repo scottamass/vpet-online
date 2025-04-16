@@ -1,7 +1,5 @@
-
 <div class="container justify-center">
     <div class="row pt-2">
-
         {% for m in monsters %}
         <div class="card mb-3" style="max-width: 540px;" data-bs-toggle="modal" data-bs-target="#monsterModal"
             data-name="{{ m.name }}" data-id="{{ m.monster_id }}" data-type="{{ m.type }}"
@@ -13,12 +11,11 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">{{ m.name }} {% if m.active%}<span class="badge rounded-pill bg-success">Active</span>{% endif%}</h5>
+                        <h5 class="card-title">{{ m.name }} {% if m.active %}<span class="badge rounded-pill bg-success">Active</span>{% endif %}</h5>
                         <p class="card-text">
                             <span class="badge rounded-pill bg-secondary">LVL: {{ m.level }}</span>
                             <span class="badge rounded-pill bg-{{ m.type }}">Type: {{ m.type }}</span>
                         </p>
-                        
                     </div>
                 </div>
             </div>
@@ -43,7 +40,15 @@
                 <p id="modalEvo"></p>
             </div>
             <div class="modal-footer">
-             
+                <button 
+                id="switchBtn"
+                class="btn btn-primary d-none"
+                hx-post="/app/utils/switch"
+                hx-trigger="click"
+                hx-target="body"
+                hx-vals='{}'>
+                Switch
+            </button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
@@ -87,37 +92,46 @@
 <!-- Script -->
 <script>
     var monsterModal = document.getElementById('monsterModal');
-    var monsters = {{ monsters | tojson | safe }};  // Pass all monsters data as a JSON object
 
     monsterModal.addEventListener('show.bs.modal', function (event) {
-        // Button that triggered the modal
         var card = event.relatedTarget;
 
-        // Extract info from data attributes
         var name = card.getAttribute('data-name');
         var id = card.getAttribute('data-id');
         var type = card.getAttribute('data-type');
         var image = card.getAttribute('data-image');
-        var bulk = JSON.parse(card.getAttribute('data-bulk'));  // Parse JSON string to object
+        var bulk = JSON.parse(card.getAttribute('data-bulk'));
         console.log(bulk)
-
-        // Update the modal's content
+        // Get modal elements
         var modalTitle = monsterModal.querySelector('.modal-title');
         var modalImage = monsterModal.querySelector('#modalImage');
         var modalName = monsterModal.querySelector('#modalName');
         var modalId = monsterModal.querySelector('#modalId');
         var modalType = monsterModal.querySelector('#modalType');
         var modalEvo = monsterModal.querySelector('#modalEvo');
+        var switchBtn = monsterModal.querySelector('#switchBtn');
 
+        // Update modal content
         modalTitle.textContent = name + ' Details';
         modalImage.src = image;
         modalName.textContent = 'Name: ' + name;
         modalId.textContent = 'ID: ' + id;
         modalType.textContent = 'Type: ' + type;
-        modalEvo.textContent = 'Type: ' + bulk.baseatk;
+        modalEvo.textContent = 'Base ATK: ' + bulk.baseatk;
 
-        // Clear previous evolution data
-       
+        // Handle Switch button
+        if (!bulk.active) {
+            switchBtn.classList.remove('d-none');
+        
+            switchBtn.setAttribute('hx-vals', JSON.stringify({
+                monster_id: bulk._id,
+               
+            }));
+        
+        } else {
+            switchBtn.classList.add('d-none');
+            switchBtn.removeAttribute('hx-vals');
+        }
+        
     });
 </script>
-
