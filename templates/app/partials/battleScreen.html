@@ -11,6 +11,70 @@
           </div>
       </div>   
       <div class="col-12 col-sm-12 col-md-12 col-lg-6 order-xs-3 order-3 order-sm-3 order-md-2 d-flex align-items-center flex-column-reverse" style="max-height: 70vh; overflow-x: scroll; overflow-y: auto;">
+        test
+      </div>
+
+      <div class="col-6 col-sm-6 col-md-2 col-lg-3 order-xs-2 order-2 order-sm-2 order-md-3 order-md-1">
+          <!-- {{opponent}} -->
+          <div class="card mx-auto" style="width:10rem;">
+              <div class="card-body text-center">
+                  <h5 class="card-title">Opponent </h5>
+                  <h6 class="card-subtitle mb-2 text-muted">{{opponent.name}}</h6>
+                  <img class="" src="{{ url_for('static', filename='' ~ opponent.name ~ '.gif' ) }}" alt="Monster Image">
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row d-flex">
+    <div class="col-4" >
+        <div class="d-flex flex-row flex-wrap justify-content-center gap-2 mb-3">
+<div class="stats-card">
+    <span class="label">Hp</span>
+    <hr class="divider" />
+    <span class="value" id="playerHP">{{monster.basehp + monster.hp}}</span>
+</div>
+<div class="stats-card">
+    <span class="label">Atk</span>
+    <hr class="divider" />
+    <span class="value">{{monster.baseatk + monster.atk}}</span>
+</div>
+<div class="stats-card">
+    <span class="label">Power</span>
+    <hr class="divider" />
+    <span class="value">{{monster.basepower + monster.power}}</span>
+</div>
+</div>
+<style>
+.stats-card {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 90px;
+    max-width: 120px;
+    flex: 1 1 90px;
+}
+
+.stats-card .label,
+.stats-card .value {
+    display: block;
+    font-size: 16px;
+}
+
+.stats-card .divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 6px 0;
+}
+</style>
+  
+    </div>
+ <div class="col-4" style="max-height: 70vh; overflow-x: scroll; overflow-y: auto;">
           {% for r in result.log %}
               {% if r.player == 1 %}
                   <div class="card bg-success" id="card{{ loop.index0 }}" style="width:18rem; display: none;">
@@ -23,7 +87,7 @@
                   <script>
                       setTimeout(function() {
                           var card = document.getElementById("card{{ loop.index0 }}");
-                          card.style.display = "block"; // Show the current card
+                          card.style.display = "block";
 
                           // Hide the previous card
                           {% if loop.index0 > 0 %}
@@ -33,9 +97,15 @@
 
                           // Update player HP dynamically
                           var playerHP = document.getElementById("playerHP");
-                          var match = r.dialog.match(/leaving them with (\d+) hp/);
-                          if (match && match[1]) {
-                              playerHP.textContent = "HP: " + match[1];
+                          var opponentHP = document.getElementById("opponentHP");
+                          // Example: "Player attacks, leaving them with 42 hp" or "Opponent attacks, leaving them with 35 hp"
+                          var playerMatch = {{ r.dialog|tojson }}.match(/Player.*?leaving them with (\d+) hp/);
+                          var opponentMatch = {{ r.dialog|tojson }}.match(/Opponent.*?leaving them with (\d+) hp/);
+                          if (playerMatch && playerMatch[1]) {
+                              playerHP.textContent = playerMatch[1];
+                          }
+                          if (opponentMatch && opponentMatch[1]) {
+                              opponentHP.textContent = opponentMatch[1];
                           }
 
                           // Show the end card immediately after the last card
@@ -70,16 +140,27 @@
               </script>
           </div>
       </div>
+      <div class="col-4" >
+         <div class="d-flex flex-row flex-wrap justify-content-center gap-2 mb-3">
 
-      <div class="col-6 col-sm-6 col-md-2 col-lg-3 order-xs-2 order-2 order-sm-2 order-md-3 order-md-1">
-          <!-- {{opponent}} -->
-          <div class="card mx-auto" style="width:10rem;">
-              <div class="card-body text-center">
-                  <h5 class="card-title">Opponent </h5>
-                  <h6 class="card-subtitle mb-2 text-muted">{{opponent.name}}</h6>
-                  <img class="" src="{{ url_for('static', filename='' ~ opponent.name ~ '.gif' ) }}" alt="Monster Image">
-              </div>
-          </div>
-      </div>
+             <div class="stats-card">
+                 <span class="label">Hp</span>
+                 <hr class="divider" />
+                 <span class="value" id="opponentHP">{{opponent.hp}}</span>
+                </div>
+                <div class="stats-card">
+                    <span class="label">Atk</span>
+                    <hr class="divider" />
+                    <span class="value">{{opponent.atk}}</span>
+                </div>
+                <div class="stats-card">
+                    <span class="label">Power</span>
+                    <hr class="divider" />
+                    <span class="value">{{opponent.power}}</span>
+                </div>
+            </div>
+
+    </div>
+   
   </div>
 </div>

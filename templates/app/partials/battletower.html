@@ -1,18 +1,19 @@
-<div class="container d-flex flex-column align-items-center" id="monster">
-    {% for b in bt %}
-    
-    {% if player.battleTower >= b.stage-1  %}
-    
-    <div hx-post="/app/battle/battletower?hp={{b.hp}}&power={{b.power}}&atk={{b.atk}}&name={{b.enemy}}&stage={{b.stage}}&prize={{b.prize}}&xp={{b.xp}}" hx-target="#monster" class="card" style="width:18rem;">
-        <div class="card-body text-center">
-          <h5 class="card-title">stage {{b.stage}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted ">{{b.enemy}}</h6>
-          <img class=""
-          src="{{ url_for('static', filename='' ~ b.enemy ~ '.gif' ) }}" alt="Monster Image">
-        </div>
-      </div>
-    {% endif %}
-    {% endfor %}
-   
-    
+<div class="container d-flex flex-column align-items-center " id="monster">
+  <!-- Back button floating on the right -->
+  <a hx-get="/app/new-feature" hx-target="body" class="btn btn-secondary"
+     style="position: fixed; top: 20px; left: 20px; z-index: 1050; padding: 0.5rem 1rem; font-size: 1rem;">
+    Back
+  </a>
+  {% for b in bt %}
+  {% if player.battleTower >= b.stage-1  %}
+  <div hx-post="/app/battle/battletower?hp={{b.hp}}&power={{b.power}}&atk={{b.atk}}&name={{b.enemy}}&stage={{b.stage}}&prize={{b.prize}}&xp={{b.xp}}" hx-target="#monster" class="card" style="width:18rem;">
+    <div class="card-body text-center">
+      <h5 class="card-title">stage {{b.stage}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted ">{{b.enemy}}</h6>
+      <img class=""
+      src="{{ url_for('static', filename='' ~ b.enemy ~ '.gif' ) }}" alt="Monster Image">
+    </div>
+    </div>
+  {% endif %}
+  {% endfor %}
 </div>
