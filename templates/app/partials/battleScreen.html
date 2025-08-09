@@ -101,6 +101,9 @@
                           // Example: "Player attacks, leaving them with 42 hp" or "Opponent attacks, leaving them with 35 hp"
                           var playerMatch = {{ r.dialog|tojson }}.match(/Player.*?leaving them with (\d+) hp/);
                           var opponentMatch = {{ r.dialog|tojson }}.match(/Opponent.*?leaving them with (\d+) hp/);
+                        console.log({{ r.p1hp }});
+                        playerHP.innerHTML = {{ r.p1hp }};
+                        opponentHP.innerHTML = {{ r.p2hp }};
                           if (playerMatch && playerMatch[1]) {
                               playerHP.textContent = playerMatch[1];
                           }
