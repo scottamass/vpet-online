@@ -31,6 +31,38 @@ def fetch_player_monster(id):
               i = call_monster(monster['monster_id'])
               monster_new ={'_id': monster['_id'], 'monster_id': monster['monster_id'], 'poster_id': monster['poster_id'], 'posted_date': monster['posted_date'], 'active': monster['active'], 'basepower': i['power'], 'basehp': i['hp'], 'power': monster['power'], 'atk': monster['atk'], 'hp': monster['hp'], 'name': i['name'], 'baseatk': i['atk'], 'stage': i['stage'], 'traning': monster['traning'], 'exp': monster['exp'], 'level': monster['level'], 'wins': monster['wins'] ,'losses': monster['losses'], 'type': i['type'],'evo':monster['evo']}
               return(monster_new)
+def switch_to_active(id,user_id):
+        print(user_id)
+        print(id)
+        query = {"active": True, "poster_id": user_id} 
+        db.playerMonster.monsters.update_one(query,{'$set':{'active':False}})
+        poster_oid = ObjectId(id)
+        query = {"_id": poster_oid} 
+        monster=db.playerMonster.monsters.find_one(query)
+        
+        print(f'----{monster}---')
+        db.playerMonster.monsters.update_one(query,{'$set':{'active':True}})
+        
+
+        
+
+        
+
+def fetch_all_player_monster(id):      
+       query = {"poster_id": id} 
+       monster=db.playerMonster.monsters.find(query)
+       monster_list=list(monster)
+       if monster == None:
+              # print(monster)
+              return(monster)
+       else :
+              return_list = []
+              for m in monster_list:
+                     print(m)
+                     monster = call_monster(m['monster_id'])
+                     monster_new = {'_id': m['_id'], 'monster_id': m['monster_id'], 'poster_id': m['poster_id'], 'posted_date': m['posted_date'], 'active': m['active'], 'basepower': monster['power'], 'basehp': monster['hp'], 'power': m['power'], 'atk': m['atk'], 'hp': m['hp'], 'name': monster['name'], 'baseatk': monster['atk'], 'stage': monster['stage'], 'traning': m['traning'], 'exp': m['exp'], 'level': m['level'], 'wins': m['wins'] ,'losses': m['losses'], 'type': monster['type'],'evo':m['evo']}
+                     return_list.append(monster_new)
+              return(return_list)
 
 
 

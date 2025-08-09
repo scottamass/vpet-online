@@ -41,7 +41,7 @@ def battle(monster1,monster2,loc):
         dice = int(random.random() * 100)
         if dice <hittate:
             p2hp -= p1atk
-            message = {'player':1,'dialog':f'{p1} struck {p2} for {p1atk} damage leaving them with {p2hp} hp'}
+            message = {'player':1,'dialog':f'{p1} struck {p2} for {p1atk} damage leaving them with {p2hp} hp','p1hp':str(p1hp),'p2hp':str(p2hp)}
             battlelog.append(message)
             if p2hp <=0:
                 message = {'player':1,'dialog':"""<p>You were Victorious</p>
@@ -52,7 +52,7 @@ def battle(monster1,monster2,loc):
                 return {'log':battlelog,'result':'win'}
         else:
             p1hp -= p2atk
-            message = {'player':2,'dialog':f'{p2} struck {p1} for {p2atk} damage leaving you with {p1hp} hp'}
+            message = {'player':2,'dialog':f'{p2} struck {p1} for {p2atk} damage leaving you with {p1hp} hp','p1hp':str(p1hp),'p2hp':str(p2hp)}
             battlelog.append(message)
             if p1hp <=0:
                 message = {'player':2,'dialog':"""<p>You Lost</p>

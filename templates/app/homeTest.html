@@ -19,7 +19,7 @@
   </div>
 
   <div class="fixed-bottom bg-dark pb-4" style="border-top-left-radius: 25px; border-top-right-radius: 25px;">
-    <div class="d-flex justify-content-around align-items-center">
+    <div class="d-flex justify-content-around align-items-center mx-auto" style="max-width: 500px;">
         <span class="position-relative nav-icon" id="monster-icon">
             <i class="fa fa-dragon text-info" style="font-size: 24px;" 
                hx-get="/app/monsters" 
@@ -50,8 +50,9 @@
                hx-get="/app/shop" 
                hx-trigger="click" 
                hx-target="#game_window"
-               onclick="setActivePage('shop')"></i>
-            <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">!</span> -->
+               onclick="setActivePage('shop')" ></i>
+           
+               
         </span>
 
         <!-- <span class="position-relative" id="inventory-icon">
